@@ -44,50 +44,24 @@ class Notification(models.Model):
         (OTHER, "Other"),
     )
 
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name="notifications"
-    )
-
-    group = models.ForeignKey(
-        Group,
-        on_delete=models.CASCADE,
-        related_name="notifications",
-        null=True,
-        blank=True
-    )
-
-    type = models.CharField(
-        max_length=30,
-        choices=NOTIFICATION_TYPES
-    )
-
-    is_read = models.BooleanField(
-        default=False
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
-
-    updated_at = models.DateTimeField(
-        auto_now=True
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name="notifications")
+    group = models.ForeignKey(Group,on_delete=models.CASCADE,related_name="notifications",null=True,blank=True)
+    type = models.CharField(max_length=30,choices=NOTIFICATION_TYPES)
+    amount = models.DecimalField(max_digits=14,decimal_places=2,null=True,blank=True)
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-created_at"]
 
     @property
     def message(self):
-
         group_name = self.group.name if self.group else "your group"
-
+        amount = f"₦{self.amount:,.2f}" if self.amount is not None else ""
         messages = {
-
             self.JOIN_REQUEST:
                 f"Someone requested to join {group_name}.",
-
             self.JOIN_APPROVED:
                 f"Your request to join {group_name} was approved.",
 
@@ -98,26 +72,26 @@ class Notification(models.Model):
                 f"A new member joined {group_name}.",
 
             self.DEPOSIT:
-                "Your deposit request has been submitted and is awaiting approval.",
+                f"Your deposit request of {amount} has been submitted and is awaiting approval.",
 
             self.DEPOSIT_APPROVED:
-                "Your deposit has been approved and your wallet has been credited.",
+                f"Your deposit of {amount} has been approved and your wallet has been credited.",
 
             self.DEPOSIT_REJECTED:
-                "Your deposit request has been rejected.",
+                f"Your deposit request of {amount} has been rejected.",
 
             self.WITHDRAWAL:
-                "Your withdrawal request has been submitted.",
+                f"Your withdrawal request of {amount} has been submitted.",
 
             self.WITHDRAWAL_APPROVED:
-                "Your withdrawal request has been approved.",
+                f"Your withdrawal of {amount} has been approved.",
 
             self.WITHDRAWAL_REJECTED:
-                "Your withdrawal request has been rejected.",
+                f"Your withdrawal request of {amount} has been rejected.",
 
             self.CONTRIBUTION:
-                f"A contribution was made to {group_name}.",
-
+                f"A contribution of {amount} was made to {group_name}.",
+            
             self.OTHER:
                 "You have a new notification.",
         }
@@ -126,7 +100,3 @@ class Notification(models.Model):
             self.type,
             "You have a new notification."
         )
-
-
-
-# Create your models here.
