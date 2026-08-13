@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'deposits',
     'dashboard',
     'wallet',
-    'deposit',
+    
 ]
 
 MIDDLEWARE = [
