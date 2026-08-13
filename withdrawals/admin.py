@@ -1,10 +1,53 @@
-from django.contrib import admin
-from .models import Withdrawal, BankInfo
+from django.contrib import admin, messages
 
-#Register your models here.
-# =========================================================
-# WITHDRAWAL ADMIN
-# =========================================================
+from .models import Withdrawal
+from wallet.services import (
+    approve_withdrawal,
+    reject_withdrawal,
+)
+
+
+@admin.action(description="Approve selected withdrawals")
+def approve_selected_withdrawals(modeladmin, request, queryset):
+
+    for withdrawal in queryset:
+
+        success, message = approve_withdrawal(withdrawal)
+
+        if success:
+            modeladmin.message_user(
+                request,
+                f"₦{withdrawal.amount:,.2f}: {message}",
+                messages.SUCCESS
+            )
+        else:
+            modeladmin.message_user(
+                request,
+                f"₦{withdrawal.amount:,.2f}: {message}",
+                messages.ERROR
+            )
+
+
+@admin.action(description="Reject selected withdrawals")
+def reject_selected_withdrawals(modeladmin, request, queryset):
+
+    for withdrawal in queryset:
+
+        success, message = reject_withdrawal(withdrawal)
+
+        if success:
+            modeladmin.message_user(
+                request,
+                f"₦{withdrawal.amount:,.2f}: {message}",
+                messages.SUCCESS
+            )
+        else:
+            modeladmin.message_user(
+                request,
+                f"₦{withdrawal.amount:,.2f}: {message}",
+                messages.ERROR
+            )
+
 
 @admin.register(Withdrawal)
 class WithdrawalAdmin(admin.ModelAdmin):
@@ -20,7 +63,6 @@ class WithdrawalAdmin(admin.ModelAdmin):
     list_filter = (
         "status",
         "created_at",
-        "updated_at",
     )
 
     search_fields = (
@@ -28,93 +70,7 @@ class WithdrawalAdmin(admin.ModelAdmin):
         "user__username",
     )
 
-    ordering = ("-updated_at",)
-
-    readonly_fields = (
-        "created_at",
-        "updated_at",
-    )
-
-    fieldsets = (
-        (
-            "Withdrawal Information",
-            {
-                "fields": (
-                    "user",
-                    "amount",
-                    "status",
-                )
-            },
-        ),
-
-        (
-            "Date Information",
-            {
-                "fields": (
-                    "created_at",
-                    "updated_at",
-                )
-            },
-        ),
-    )
-
-
-# =========================================================
-# BANK INFO ADMIN
-# =========================================================
-
-@admin.register(BankInfo)
-class BankInfoAdmin(admin.ModelAdmin):
-
-    list_display = (
-        "user",
-        "bank_name",
-        "account_name",
-        "account_number",
-        "created_at",
-        "updated_at",
-    )
-
-    list_filter = (
-        "bank_name",
-        "created_at",
-    )
-
-    search_fields = (
-        "user__email",
-        "user__username",
-        "bank_name",
-        "account_name",
-        "account_number",
-    )
-
-    ordering = ("-created_at",)
-
-    readonly_fields = (
-        "created_at",
-        "updated_at",
-    )
-
-    fieldsets = (
-        (
-            "Bank Account Information",
-            {
-                "fields": (
-                    "user",
-                    "bank_name",
-                    "account_name",
-                    "account_number",
-                )
-            },
-        ),
-
-        (
-            "Date Information",
-            {
-                "fields": (
-                    "created_at",
-                    "updated_at",
-                )
-            },
-        ),
-    )
+    actions = [
+        approve_selected_withdrawals,
+        reject_selected_withdrawals,
+    ]

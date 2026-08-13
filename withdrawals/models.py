@@ -39,4 +39,6 @@ class BankInfo(models.Model):
     
     def __str__(self):
         return f"{self.user} - {self.bank_name} - {self.account_number}"
-
+        
+    
+    

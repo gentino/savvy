@@ -33,7 +33,8 @@ def withdrawals(request):
             # Create notification
             Notification.objects.create(
                 user=request.user,
-                type="withdrawal"
+                type="withdrawal",
+                amount=withdrawal_request.amount
             )
 
             messages.success(
