@@ -1,0 +1,274 @@
+{% extends '../base/auth_base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Background Decor -->
+<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary-container/20 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary-container/30 rounded-full blur-[120px] pointer-events-none"></div>
+<div class="w-full max-w-[500px] z-10">
+<!-- Brand Header -->
+<div class="text-center mb-xl">
+<div class="mb-xl flex items-center justify-center">
+    <img 
+        src="{% static 'images/logo.png' %}" 
+        alt="Savvy Logo"
+        class="w-32 h-auto object-contain"
+    >
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-base">Start building wealth with your community today.</p>
+</div>
+<!-- Registration Form Card -->
+<div class="glass-panel rounded-xl shadow-lg p-lg md:p-xl relative">
+
+    {% include "includes/messages.html" %}
+    <form method="POST" enctype="multipart/form-data" class="space-y-md">
+
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="rounded-xl border border-red-200 bg-red-50 p-4">
+            {% for error in form.non_field_errors %}
+                <p class="text-sm text-red-600">{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Profile Photo -->
+    <div class="flex flex-col items-center mb-lg">
+
+        {{ form.profile_photo }}
+
+        <label for="{{ form.profile_photo.id_for_label }}"
+               class="relative group cursor-pointer">
+
+            <div id="imagePreview"
+                 class="w-24 h-24 rounded-full bg-surface-container-low border-2 border-dashed border-outline-variant flex items-center justify-center overflow-hidden group-hover:border-primary">
+
+                <span id="cameraIcon"
+                      class="material-symbols-outlined text-outline text-3xl">
+                    add_a_photo
+                </span>
+
+            </div>
+
+            <div class="absolute -bottom-2 bg-surface px-2 py-1 rounded-full border border-outline-variant text-xs shadow-sm">
+                Upload Photo
+            </div>
+
+        </label>
+
+        {% if form.profile_photo.errors %}
+            <p class="text-red-500 text-sm mt-2">
+                {{ form.profile_photo.errors.0 }}
+            </p>
+        {% endif %}
+
+    </div>
+
+    <!-- First / Last Name -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+
+        <div>
+            <label class="block mb-xs">First Name</label>
+            {{ form.first_name }}
+            <small  class="fold-bold text-red-500" >{{ form.first_name.errors }}</small>
+        </div>
+
+        <div>
+            <label class="block mb-xs">Last Name</label>
+            {{ form.last_name }}
+           <small  class="fold-bold text-red-500" > {{ form.last_name.errors }}</small>
+        </div>
+
+    </div>
+
+    <!-- Username -->
+
+    <div>
+        <label class="block mb-xs">Username</label>
+        {{ form.username }}
+        <small  class="fold-bold text-red-500" >{{ form.username.errors }}</small>
+    </div>
+
+    <!-- Email -->
+
+    <div>
+
+        <label class="block mb-xs">
+            Email Address
+        </label>
+
+        <div class="relative">
+
+            <div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+                <span class="material-symbols-outlined text-outline-variant">
+                    mail
+                </span>
+            </div>
+
+            {{ form.email }}
+
+        </div>
+
+        <small  class="fold-bold text-red-500" >{{ form.email.errors }}</small>
+
+    </div>
+
+    <!-- Phone -->
+
+    <div>
+
+        <label class="block mb-xs">
+            Phone Number
+        </label>
+
+        <div class="relative">
+
+            <div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+                <span class="material-symbols-outlined text-outline-variant">
+                    call
+                </span>
+            </div>
+
+            {{ form.phone }}
+
+        </div>
+
+        <small  class="fold-bold text-red-500" >{{ form.phone.errors }}</small>
+
+    </div>
+
+    <!-- Password -->
+
+    <div>
+        <label class="block mb-xs">
+            Password
+        </label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+                <span class="material-symbols-outlined text-outline-variant">
+                    lock
+                </span>            
+            </div>
+  
+
+    {{ form.password1 }}
+
+   
+        </div>
+
+    
+         {% if form.password1.errors %}
+        {% for error in form.password1.errors %}
+            <small class="mt-1 text-sm text-red-600">
+                {{ error }}
+            </small>
+        {% endfor %}
+    {% endif %}
+    </div>
+
+    <!-- Confirm Password -->
+    <div>
+    <label class="block mb-xs">
+        Confirm Password
+    </label>
+
+    <div class="relative">
+
+        <div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+            <span class="material-symbols-outlined text-outline-variant">
+                lock
+            </span>
+        </div>
+
+        {{ form.password2 }}
+
+    </div>
+
+    {% if form.password2.errors %}
+        {% for error in form.password2.errors %}
+            <small class="mt-1 block text-sm text-red-600">
+                {{ error }}
+            </small>
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+
+    <!-- Terms -->
+
+    <div class="flex items-start">
+
+        <input
+            type="checkbox"
+            required
+            class="mt-1 w-4 h-4 rounded">
+
+        <label class="ml-2 text-sm">
+            I agree to the
+            <a href="#" class="text-primary hover:underline">
+                Terms of Service
+            </a>
+            and
+            <a href="#" class="text-primary hover:underline">
+                Privacy Policy
+            </a>
+        </label>
+
+    </div>
+
+    <!-- Button -->
+
+    <button
+        type="submit"
+        class="w-full bg-primary text-on-primary rounded-xl py-sm">
+
+        Create Account
+
+    </button>
+
+</form>
+
+<!-- Login Link -->
+<div class="mt-lg text-center border-t border-outline-variant pt-lg">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Already have an account? 
+                    <a class="text-primary font-label-sm text-label-sm hover:underline" href="{% url 'login' %}">Log In</a>
+</p>
+</div>
+</div>
+</div>
+<script>
+const imageInput = document.getElementById("id_profile_photo");
+
+if (imageInput) {
+
+    const preview = document.getElementById("imagePreview");
+
+    imageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            preview.innerHTML = `
+                <img
+                    src="${e.target.result}"
+                    class="w-full h-full object-cover rounded-full"
+                    alt="Profile Preview"
+                >`;
+
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+</script>
+{% endblock %}

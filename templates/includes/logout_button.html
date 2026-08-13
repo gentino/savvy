@@ -1,0 +1,7 @@
+<form method="POST" action="{% url 'logout' %}">
+{%  csrf_token %}
+<button class="flex w-full items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-sm">Logout</span>
+</button>
+</form>

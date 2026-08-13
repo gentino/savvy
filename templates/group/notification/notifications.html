@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Savvy - Notifications</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#006b2d",
+                        "on-surface": "#0b1c30",
+                        "secondary-fixed-dim": "#79db8d",
+                        "secondary": "#006d30",
+                        "primary-container": "#00873a",
+                        "surface-container": "#e5eeff",
+                        "on-primary": "#ffffff",
+                        "background": "#f8f9ff",
+                        "surface-tint": "#006e2d",
+                        "surface": "#f8f9ff",
+                        "inverse-primary": "#62df7d",
+                        "surface-variant": "#d3e4fe",
+                        "on-tertiary-container": "#f7fff3",
+                        "tertiary-fixed": "#6bff8f",
+                        "outline-variant": "#bdcaba",
+                        "secondary-container": "#92f5a4",
+                        "on-secondary-fixed-variant": "#005323",
+                        "secondary-fixed": "#95f8a7",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-tertiary-fixed": "#002109",
+                        "on-primary-fixed": "#002109",
+                        "inverse-surface": "#213145",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "outline": "#6e7b6c",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#3e4a3d",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#007233",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-bright": "#f8f9ff",
+                        "primary": "#006b2c",
+                        "surface-container-low": "#eff4ff",
+                        "primary-fixed-dim": "#62df7d",
+                        "on-secondary-fixed": "#00210a",
+                        "primary-fixed": "#7ffc97",
+                        "tertiary-container": "#00873b",
+                        "on-primary-container": "#f7fff2",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "on-background": "#0b1c30",
+                        "surface-container-high": "#dce9ff",
+                        "on-primary-fixed-variant": "#005320",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#cbdbf5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "xxl": "48px",
+                        "sm": "12px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-xs": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "title-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-xs": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen antialiased flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-screen w-72 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline shadow-none z-50">
+<div class="p-md space-y-base flex flex-col h-full">
+<!-- Header -->
+<div class="flex items-center gap-sm mb-lg px-2 pt-4">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold font-title-md shrink-0">O</div>
+<div>
+<h1 class="font-title-md text-title-md text-primary dark:text-primary-fixed-dim">Osusu Savings</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Community Finance</p>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-4 py-3 bg-secondary-container text-on-secondary-container rounded-xl font-bold transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined fill">group</span>
+<span class="font-label-sm text-label-sm">My Groups</span>
+</a>
+<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-sm text-label-sm">Contributions</span>
+</a>
+<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="font-label-sm text-label-sm">Wallet</span>
+</a>
+<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-sm text-label-sm">Reports</span>
+</a>
+</div>
+<!-- CTA & Footer -->
+<div class="mt-auto space-y-4 pb-4">
+<button class="w-full bg-primary hover:bg-tertiary-container text-on-primary py-3 rounded-xl font-label-sm text-label-sm font-semibold transition-colors flex justify-center items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span> Create Group
+                </button>
+<div class="space-y-1 pt-4 border-t border-outline-variant/30">
+<a class="flex items-center gap-sm px-4 py-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+<a class="flex items-center gap-sm px-4 py-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-label-sm text-label-sm">Logout</span>
+</a>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 md:ml-72 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 sticky backdrop-blur-xl bg-surface/70 border-b border-outline-variant shadow-sm z-40">
+<div class="flex justify-between items-center w-full px-4 md:px-lg py-sm">
+<!-- Search (Left) -->
+<div class="flex-1 max-w-md hidden md:flex items-center">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-full border-outline-variant bg-surface-container-highest focus:ring-2 focus:ring-primary focus:border-transparent font-body-md text-body-md text-on-surface" placeholder="Search Osusu..." type="text"/>
+</div>
+</div>
+<!-- Mobile Brand (Centerish on mobile) -->
+<div class="md:hidden flex-1 text-center font-display-lg text-title-md font-bold text-primary">
+                    Osusu
+                </div>
+<!-- Actions (Right) -->
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 rounded-full hover:bg-surface-variant flex items-center justify-center text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-surface-variant flex items-center justify-center text-on-surface-variant transition-colors hidden md:flex">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-variant ml-2 border border-outline-variant overflow-hidden">
+{% if user.profile_photo %}
+        <img class="w-full h-full object-cover"  src="{{user.profile_photo.url}}" alt="{{ user.get_full_name }}"/>
+    {% else %}
+        <img class="w-full h-full object-cover"  src=""/>
+    {% endif %}
+</button>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-4 md:p-lg space-y-xl max-w-container-max mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex text-label-sm text-on-surface-variant mb-2 items-center space-x-1">
+<a class="hover:text-primary transition-colors" href="{% url 'groups' %}">My Groups</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface font-medium">Notifications</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Nofitications</h2>
+</div>
+</div>
+<!-- Tabs -->
+<div class="border-b border-outline-variant overflow-x-auto hide-scrollbar">
+<nav aria-label="Tabs" class="-mb-px flex space-x-6 min-w-max">
+<a class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-label-sm font-bold" href="#">Overview <span class="ml-1 bg-surface-variant text-on-surface px-2 py-0.5 rounded-full text-[10px]">{{notifications.count}}</span></a>
+<a class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant whitespace-nowrap py-4 px-1 border-b-2 font-label-sm font-medium transition-colors" href="{% url 'withdrawal_notification'%}">withdrawals <span class="ml-1 bg-surface-variant text-on-surface px-2 py-0.5 rounded-full text-[10px]">12</span></a>
+{% comment %} <a class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-label-sm font-bold" href="#">Cycles</a> {% endcomment %}
+<a class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant whitespace-nowrap py-4 px-1 border-b-2 font-label-sm font-medium transition-colors" href="#">Deposits <span class="ml-1 bg-surface-variant text-on-surface px-2 py-0.5 rounded-full text-[10px]">12</span></a>
+</nav>
+</div>
+
+<!-- Two Column Layout for Timeline and Reordering -->
+<div class="grid grid-cols-1 lg:grid-cols-1 gap-lg items-start">
+<!-- Main Timeline List (Takes up 2 cols on LG) -->
+<div class="lg:col-span-1 space-y-md">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-title-md text-title-md text-on-surface">Overview of notfications</h3>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-variant transition"><span class="material-symbols-outlined text-[20px]">filter_list</span></button>
+</div>
+</div>
+<!-- Timeline Container -->
+<div class="space-y-4">
+
+    
+{% for notification in notifications %}
+
+<div class="bg-surface-container-lowest rounded-2xl p-md border
+    {% if notification.is_read %}
+        border-outline-variant
+    {% else %}
+        border-primary/30 bg-primary/5
+    {% endif %}
+    transition-all hover:shadow-sm
+">
+
+    <div class="flex items-start gap-4">
+
+        <!-- Notification Icon -->
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0
+            {% if notification.is_read %}
+                bg-surface-container text-on-surface-variant
+            {% else %}
+                bg-primary/10 text-primary
+            {% endif %}
+        ">
+
+            {% if notification.type == "join_request" %}
+
+                <span class="material-symbols-outlined">
+                    person_add
+                </span>
+
+            {% elif notification.type == "join_approved" %}
+
+                <span class="material-symbols-outlined">
+                    check_circle
+                </span>
+
+            {% elif notification.type == "join_rejected" %}
+
+                <span class="material-symbols-outlined">
+                    person_remove
+                </span>
+
+            {% elif notification.type == "member_joined" %}
+
+                <span class="material-symbols-outlined">
+                    group_add
+                </span>
+
+            {% elif notification.type == "contribution" %}
+
+                <span class="material-symbols-outlined">
+                    payments
+                </span>
+
+            {% elif notification.type == "deposit" %}
+
+                <span class="material-symbols-outlined">
+                    account_balance
+                </span>
+
+            {% elif notification.type == "deposit_approved" %}
+
+                <span class="material-symbols-outlined">
+                    check_circle
+                </span>
+
+            {% elif notification.type == "deposit_rejected" %}
+
+                <span class="material-symbols-outlined">
+                    cancel
+                </span>
+
+            {% elif notification.type == "withdrawal" %}
+
+                <span class="material-symbols-outlined">
+                    account_balance_wallet
+                </span>
+
+            {% else %}
+
+                <span class="material-symbols-outlined">
+                    notifications
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Notification Content -->
+        <div class="flex-1 min-w-0">
+
+            <div class="flex items-start justify-between gap-3">
+
+                <div class="flex-1">
+
+                    <!-- Notification Title -->
+                    <p class="font-label-sm text-on-surface font-semibold">
+
+                        {% if notification.type == "join_request" %}
+                            New Join Request
+
+                        {% elif notification.type == "join_approved" %}
+                            Request Approved
+
+                        {% elif notification.type == "join_rejected" %}
+                            Request Rejected
+
+                        {% elif notification.type == "member_joined" %}
+                            New Member
+
+                        {% elif notification.type == "contribution" %}
+                            New Contribution
+
+                        {% elif notification.type == "deposit" %}
+                            Deposit Request
+
+                        {% elif notification.type == "deposit_approved" %}
+                            Deposit Approved
+
+                        {% elif notification.type == "deposit_rejected" %}
+                            Deposit Rejected
+
+                        {% elif notification.type == "withdrawal" %}
+                            Withdrawal Request
+
+                        {% elif notification.type == "withdrawal_approved" %}
+                            Withdrawal Approved
+
+                        {% elif notification.type == "withdrawal_rejected" %}
+                            Withdrawal Rejected
+
+                        {% else %}
+                            Notification
+                        {% endif %}
+
+                    </p>
+
+
+                    <!-- Message -->
+                    <p class="font-body-sm text-on-surface-variant mt-1 leading-relaxed">
+                        {{ notification.message }}
+                    </p>
+
+
+                    <!-- Footer -->
+                    <div class="flex items-center gap-2 mt-3">
+
+                        <span class="material-symbols-outlined text-[16px] text-outline">
+                            schedule
+                        </span>
+
+                        <span class="font-label-xs text-on-surface-variant">
+                            {{ notification.created_at|timesince }} ago
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Unread Indicator -->
+                {% if not notification.is_read %}
+
+                    <span
+                        class="w-2.5 h-2.5 rounded-full bg-primary shrink-0 mt-1"
+                        title="Unread">
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Delete Action -->
+    <div class="flex justify-end mt-3 pt-3 border-t border-outline-variant/50">
+
+        <form
+            method="POST"
+            action="{% url 'delete_notification' notification.id %}"
+            onsubmit="return confirm('Are you sure you want to delete this notification?');"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg
+                       text-error hover:bg-error/10
+                       transition-colors font-label-xs"
+                title="Delete notification"
+            >
+
+                <span class="material-symbols-outlined text-[17px]">
+                    delete
+                </span>
+
+                Delete
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 w-full md:hidden rounded-t-xl backdrop-blur-xl bg-surface/80 dark:bg-surface-dim/80 border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 flex justify-around items-center px-lg pb-4 pt-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-xs text-label-xs">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold active:bg-surface-container-high scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined fill">explore</span>
+<span class="font-label-xs text-label-xs">Groups</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">wallet</span>
+<span class="font-label-xs text-label-xs">Wallet</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-xs text-label-xs">Profile</span>
+</a>
+</nav>
+</body>
+</html>
