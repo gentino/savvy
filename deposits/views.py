@@ -5,6 +5,7 @@ from notifications.models import Notification
 from .forms import DepositForm
 
 
+
 @login_required
 def deposit(request):
 
@@ -26,12 +27,16 @@ def deposit(request):
             deposit.save()
 
             # Create notification
-            Notification.objects.create(user=request.user, type=Notification.DEPOSIT)
+            Notification.objects.create(
+                user=request.user,
+                type=Notification.DEPOSIT,
+                amount=deposit.amount
+            )
 
             messages.success(
                 request,
                 "Your deposit request has been submitted successfully "
-                "and is awaiting approval.",
+                "and is awaiting approval."
             )
 
             return redirect("wallet")
@@ -39,19 +44,13 @@ def deposit(request):
     else:
         form = DepositForm()
 
-    return render(request, "group/deposit.html", {"form": form})
-
-
-@login_required
-def deposits(request):
-
-    notifications = Notification.objects.filter(
-        user=request.user, type=Notification.DEPOSIT
-    )
-
     return render(
-        request, "group/notifcations/deposit.html", {"notifications": notifications}
+        request,
+        "group/deposit.html",
+        {
+            "form": form
+        }
     )
 
 
-# Create your views here.
+    
