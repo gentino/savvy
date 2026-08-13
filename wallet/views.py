@@ -17,9 +17,11 @@ def wallet(request):
     
     wallet = request.user.wallet
     bankinfo=BankInfo.objects.filter(user=request.user).first()
+    transactions = wallet.transactions.all()
     context = {
         'bankinfo':bankinfo,
         "wallet": wallet,
+        'transactions':transactions
         
     }
     return render(request,'group/wallet.html',context)
@@ -149,9 +151,11 @@ def save(request, id):
             description=f"Contribution to {group.name}"
         )
 
-    messages.success(
-        request,
-        f"Your contribution of ₦{amount:,.2f} was successful."
-    )
-
+    messages.success(request,f"Your contribution of ₦{amount:,.2f} was successful.")
     return redirect("group", id=group.id)
+
+@login_required
+def transactions(request):
+    wallet = get_object_or_404(Wallet,user=request.user)
+    transactions = wallet.transactions.all()
+    return render(request,"wallet/transactions.html",{"transactions": transactions})
