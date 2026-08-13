@@ -39,9 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #custom app
-    'core',
+    'accounts',
+    'groups',
     'notifications',
-    'withdrawals'
+    'core',
+    'withdrawals',
+    'deposits',
+    'dashboard',
+    'wallet',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +126,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATIC_URL = 'static/'
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+AUTH_USER_MODEL ='accounts.User'
+AUTHENTICATION_BACKENDS = [
+    "accounts.backends.EmailBackend",
+]
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
