@@ -151,7 +151,8 @@ def group_details(request, id):
         'progress':progress,
         'is_creator':is_creator,
         'member_count':member,
-        'can_contribute':can_contribute
+        'can_contribute':can_contribute,
+        'next_contribution':next_contribution
     }
     return render(request, "group/group.html",context)
 
@@ -406,7 +407,7 @@ def remove_member(request, id, user_id):
     # Only the creator can remove members
     if group.creator != request.user:
         messages.error(request,"Only the group creator can remove members.")
-        return redirect("group_detail", id=group.id)
+        return redirect("group", id=group.id)
     membership = get_object_or_404(GroupMember,group=group,user_id=user_id,role=GroupMember.MEMBER)
     if request.method == "POST":
         with transaction.atomic():
