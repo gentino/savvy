@@ -1,0 +1,238 @@
+{% extends '../base/auth_base.html' %}
+
+{% block content %}
+
+{% include '../includes/messages.html' %}
+<div class="w-full max-w-md">
+
+    <!-- Header Section -->
+    <div class="text-center mb-xl">
+
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-container/10 text-primary mb-md">
+            <span class="material-symbols-outlined text-3xl">
+                account_balance_wallet
+            </span>
+        </div>
+
+        <h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-xs">
+            Deposit Funds
+        </h1>
+
+        <p class="font-body-md text-body-md text-on-surface-variant">
+            Add funds to your wallet and use them for your Osusu savings activities.
+        </p>
+
+    </div>
+
+
+    <!-- Wallet Balance -->
+    <div class="bg-primary rounded-xl p-lg mb-lg text-on-primary shadow-sm">
+
+        <div class="flex items-center justify-between">
+
+            <div>
+                <p class="font-label-xs text-label-xs opacity-80">
+                    Available Wallet Balance
+                </p>
+
+                <p class="text-2xl font-semibold mt-xs">
+                    ₦{{ wallet.balance|default:"0.00" }}
+                </p>
+            </div>
+
+            <div class="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center">
+                <span class="material-symbols-outlined">
+                    account_balance_wallet
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Deposit Card -->
+    <div class="glass-panel rounded-xl p-lg space-y-lg relative overflow-hidden">
+
+        <!-- Security Badge -->
+        <div class="absolute top-0 right-0 bg-surface-container text-on-surface-variant font-label-xs text-label-xs px-sm py-xs rounded-bl-xl flex items-center gap-xs">
+
+            <span class="material-symbols-outlined text-[16px]">
+                lock
+            </span>
+
+            Secure Deposit
+
+        </div>
+
+
+        <!-- Form -->
+        <form class="space-y-md mt-sm" method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- Amount -->
+            <div>
+
+                <label
+                    class="block font-label-sm text-label-sm text-on-surface mb-xs"
+                    for="{{ form.amount.id_for_label }}"
+                >
+                    Deposit Amount
+                </label>
+
+                <div class="relative">
+
+                    <div class="absolute inset-y-0 left-0 pl-sm flex items-center pointer-events-none">
+
+                        <span class="text-on-surface-variant font-medium">
+                            ₦
+                        </span>
+
+                    </div>
+
+                    {{ form.amount }}
+
+                </div>
+
+
+                <!-- Amount Errors -->
+                {% if form.amount.errors %}
+
+                    <div class="mt-xs">
+
+                        {% for error in form.amount.errors %}
+
+                            <p class="text-sm text-red-600">
+                                {{ error }}
+                            </p>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="flex justify-between mt-xs">
+
+                    <p class="font-label-xs text-label-xs text-on-surface-variant">
+                        Minimum deposit: ₦100
+                    </p>
+
+                    <p class="font-label-xs text-label-xs text-on-surface-variant">
+                        Wallet deposit
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- General Form Errors -->
+            {% if form.non_field_errors %}
+
+                <div class="bg-red-50 border border-red-200 rounded-xl p-sm">
+
+                    {% for error in form.non_field_errors %}
+
+                        <p class="text-sm text-red-600">
+                            {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- Information Box -->
+            <div class="bg-surface-container-low rounded-lg p-md flex gap-sm items-start">
+
+                <span class="material-symbols-outlined text-primary mt-xs text-[20px]">
+                    info
+                </span>
+
+                <div>
+
+                    <p class="font-label-sm text-label-sm text-on-surface font-semibold">
+                        How deposits work
+                    </p>
+
+                    <p class="font-label-xs text-label-xs text-on-surface-variant mt-xs leading-relaxed">
+                        Your deposit request will first be marked as pending.
+                        Your wallet will only be credited after the deposit
+                        has been verified and approved by the platform administrator.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Transaction Reference Information -->
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md">
+
+                <div class="flex items-center gap-sm">
+
+                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+
+                        <span class="material-symbols-outlined text-primary">
+                            receipt_long
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <p class="font-label-sm text-label-sm text-on-surface font-semibold">
+                            Transaction Reference
+                        </p>
+
+                        <p class="font-label-xs text-label-xs text-on-surface-variant mt-xs">
+                            A unique reference will be generated automatically after submission.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="pt-sm space-y-sm">
+
+                <button
+                    type="submit"
+                    class="w-full bg-primary text-on-primary font-label-sm text-label-sm py-sm rounded-xl hover:bg-tertiary transition-colors shadow-sm flex justify-center items-center gap-xs"
+                >
+
+                    <span class="material-symbols-outlined text-[18px]">
+                        add_circle
+                    </span>
+
+                    Submit Deposit
+
+                </button>
+
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="block text-center w-full bg-transparent text-primary font-label-sm text-label-sm py-sm rounded-xl hover:bg-surface-container-low transition-colors"
+                >
+                    Back Home
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,17 @@
+{% if user.profile_photo %}
+
+                        <img
+                            class="w-full h-full object-cover"
+                            src="{{ user.profile_photo.url }}"
+                            alt="{{ user.get_full_name }}"
+                        />
+
+                    {% else %}
+
+                        <div class="w-full h-full flex items-center justify-center bg-primary text-white font-bold">
+
+                            {{ user.first_name|first|default:user.username|first|upper }}
+
+                        </div>
+
+                    {% endif %}

@@ -1,0 +1,39 @@
+
+<!-- Group Card 1 -->
+ {% load humanize %}
+<div class="glass-card rounded-2xl p-lg hover:shadow-lg transition-all group flex flex-col h-full  border-2 border-solid border-primary/30 rounded-2xl">
+<div class="flex justify-between items-start mb-md">
+<div class="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
+<img src="{{ group.group_image.url}}"/>
+</div>
+{% if group.is_creator %}
+    <span class="px-sm py-1 bg-secondary-container text-on-secondary-container font-label-xs text-label-xs rounded-full font-bold">Creator</span>
+{% else %}
+    <span class="px-sm py-1 bg-orange-600 text-on-secondary-container font-label-xs text-label-xs rounded-full font-bold"> Member</span>
+{% endif %}
+</div>
+<h3 class="font-title-md text-title-md text-on-surface group-hover:text-primary transition-colors">{{group.name}}</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-lg">{{group.description}}</p>
+<div class="space-y-md flex-1">
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-on-surface-variant">Contribution</span>
+<span class="text-on-surface font-bold text-lg">₦{{group.contribution_amount|floatformat:2|intcomma }} <span class="text-xs font-medium text-on-surface-variant">/ {{group.contribution_frequency}}</span></span>
+</div>
+<div class="flex justify-between items-center text-label-sm font-label-sm">
+<span class="text-on-surface-variant">Duration</span>
+<span class="text-on-surface">{{group.duration}} <sup>times</sup></span>
+</div>
+<div class="space-y-xs pt-sm">
+<div class="flex justify-between text-label-xs font-label-xs mb-1">
+<span class="text-on-surface-variant">{{group.active_member_count}} of {{group.max_members}} slots filled</span>
+<span class="text-primary font-bold">{{ group.remaining_slots }} Left</span>
+</div>
+<div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-1000" style="width:{{group.active_member_count}}%"></div>
+</div>
+</div>
+</div>
+<div class="mt-lg pt-lg border-t border-outline-variant flex items-center justify-between">
+<a href="{% url 'group' group.id %}" class="bg-primary text-on-primary px-lg py-2 rounded-xl font-label-sm text-label-sm font-bold hover:scale-105 active:scale-95 transition-all">Details</a>
+</div>
+</div>

@@ -1,0 +1,102 @@
+{% extends '../base/auth_base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="w-full min-h-screen flex flex-col md:flex-row bg-surface">
+<!-- Left Section: Branded Visual (Desktop Only) -->
+<section class="hidden md:flex md:w-1/2 lg:w-3/5 relative overflow-hidden bg-primary items-center justify-center p-xxl">
+<!-- Background Animation Shader -->
+
+<div class="relative z-10 max-w-xl text-center md:text-left">
+
+
+    {% load static %}
+
+<div class="mb-xl flex items-center gap-md">
+    <img 
+        src="{% static 'images/logo.png' %}" 
+        alt="Savvy Logo"
+        class="w-32 h-auto object-contain"
+    >
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-primary mb-lg leading-tight">
+    Join the future of community savings.
+</h2>
+<p class="font-body-lg text-body-lg text-on-primary-container opacity-90 max-w-lg mb-xxl">
+                    Unlock the power of collective growth. Securely manage group contributions, track your progress, and build financial resilience with your community.
+                </p>
+<!-- Proof points/Badges -->
+<div class="flex flex-wrap gap-lg">
+<div class="glass-effect p-md rounded-xl border border-white/20 flex items-center gap-sm">
+<span class="material-symbols-outlined text-tertiary-fixed">verified_user</span>
+<span class="font-label-sm text-on-primary">Bank-grade Security</span>
+</div>
+<div class="glass-effect p-md rounded-xl border border-white/20 flex items-center gap-sm">
+<span class="material-symbols-outlined text-tertiary-fixed">groups</span>
+<span class="font-label-sm text-on-primary">50k+ Active Groups</span>
+</div>
+</div>
+</div>
+<!-- Absolute positioned decorative element -->
+<div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-primary-container rounded-full blur-[120px] opacity-30"></div>
+</section>
+<!-- Right Section: Login Form -->
+<section class="w-full md:w-1/2 lg:w-2/5 flex flex-col items-center justify-center p-md md:p-xxl bg-background">
+<!-- Mobile Logo Branding (Shown only on small screens) -->
+
+
+<div class="md:hidden mb-xl flex flex-col items-center">
+    <img 
+        src="{% static 'images/logo.png' %}" 
+        alt="Savvy Logo"
+        class="w-24 h-24 object-contain mb-sm"
+    >
+</div>
+<div class="w-full max-w-md bg-surface-container-lowest md:bg-transparent p-lg md:p-0 rounded-3xl shadow-lg md:shadow-none border border-outline-variant md:border-none">
+<header class="mb-xl text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg md:text-headline-lg text-on-surface mb-xs">Welcome Back</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Log in to manage your savings groups</p>
+</header>
+
+{% include "includes/messages.html" %}
+<!-- Form -->
+<form  class="space-y-lg" method="POST">
+    {% csrf_token %}
+<div>
+<label class="block font-label-sm text-on-surface-variant mb-xs" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">mail</span>
+{{form.email}}
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-xs">
+<label class="block font-label-sm text-on-surface-variant" for="password">Password</label>
+<a class="font-label-sm text-primary hover:underline transition-all" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60">lock</span>
+{{form.password}}
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant opacity-60 hover:opacity-100" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center">
+{{form.remember}}
+<label class="ml-base font-label-sm text-on-surface-variant cursor-pointer" for="remember">Remember me </label>
+</div>
+    <button class="w-full py-md px-lg bg-primary text-on-primary font-title-md rounded-xl shadow-sm hover:shadow-lg hover:bg-primary-container active:scale-[0.98] transition-all duration-200" type="submit">
+                        Sign In
+    </button>
+</form>
+
+<footer class="mt-xl text-center">
+<p class="font-body-md text-on-surface-variant">Don't have an account? <a class="text-primary font-bold hover:underline transition-all" href="{% url 'register' %}">Join Savvy today</a></p>
+</footer><!-- Security Note -->
+
+</div>
+</section>
+</main>
+{% endblock %} 

@@ -1,0 +1,43 @@
+{% extends '../group/withdraw.html' %}
+
+<main class="w-full max-w-md">
+{% block content %}
+{% include '../includes/messages.html' %}
+<!-- Header Section -->
+<div class="text-center mb-xl">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-xs">Withdraw</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Securely withdraw  to  your bank account to receive your  payouts.</p>
+</div>
+<!-- Form Card -->
+<div class="glass-panel rounded-xl p-lg space-y-lg relative overflow-hidden">
+<!-- Security Badge -->
+<div class="absolute top-0 right-0 bg-surface-container text-on-surface-variant font-label-xs text-label-xs px-sm py-xs rounded-bl-xl flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                Bank - level Security
+            </div>
+<form class="space-y-md mt-sm" method="POST">
+<!-- Account Name -->
+<div>
+    {% csrf_token %}
+<label class="block font-label-sm text-label-sm text-on-surface mb-xs" for="bank name">Enter bank name</label>
+    {{ form.bank_name}}
+</div>
+<!-- Account Number -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface mb-xs" for="account number">Enter account aumber</label>
+    {{ form.account_number}}
+</div>
+
+<label class="block font-label-sm text-label-sm text-on-surface mb-xs" for="account name">Enter account name</label>
+    {{form.account_name}}
+
+<!-- Actions -->
+<div class="pt-md space-y-sm">
+<button class="w-full bg-primary text-on-primary font-label-sm text-label-sm py-sm rounded-xl hover:bg-tertiary transition-colors shadow-sm flex justify-center items-center gap-xs" type="submit">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                        Save
+</button>
+<a href='{% url 'wallet' %}'  class="block w-full bg-gray-200 text-primary font-label-sm text-label-sm py-sm rounded-xl hover:bg-surface-container-low transition-colors text-center">Back</a>
+</div>
+</form>
+{% endblock %}

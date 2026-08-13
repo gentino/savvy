@@ -1,0 +1,436 @@
+<div
+    id="inviteModal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+>
+
+    <!-- Modal -->
+    <div
+        class="w-full max-w-lg max-h-[90vh] bg-surface rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+    >
+
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between px-lg py-md border-b border-outline-variant">
+
+            <div>
+                <h2 class="font-title-lg text-title-lg text-on-surface">
+                    Invite Members
+                </h2>
+
+                <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                    Share your group invite link with people you trust.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                onclick="closeInviteModal()"
+                class="w-10 h-10 rounded-full flex items-center justify-center
+                       text-on-surface-variant hover:bg-surface-variant
+                       transition-colors"
+            >
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+
+        <!-- Modal Body -->
+        <div class="p-lg overflow-y-auto">
+
+            <!-- Share Link Section -->
+            <div class="text-center">
+
+                <!-- Icon -->
+                <div
+                    class="inline-flex items-center justify-center
+                           w-16 h-16 rounded-full
+                           bg-primary-container
+                           text-on-primary-container mb-4"
+                >
+                    <span class="material-symbols-outlined text-[32px]">
+                        link
+                    </span>
+                </div>
+
+                <!-- Title -->
+                <h3 class="font-title-md text-title-md text-on-surface">
+                    Shareable Invite Link
+                </h3>
+
+                <!-- Description -->
+                <p
+                    class="font-body-md text-body-md
+                           text-on-surface-variant
+                           max-w-sm mx-auto mt-2"
+                >
+                    Anyone with this link can request to join your
+                    Osusu savings group. You will need to approve
+                    their request.
+                </p>
+
+
+                <!-- Invite Link -->
+                <div
+                    class="flex items-center p-1 pl-4
+                           bg-surface-container-low
+                           border border-outline-variant
+                           rounded-xl mt-6"
+                >
+
+                    <input
+                        id="inviteLink"
+                        class="flex-1 min-w-0 bg-transparent
+                               border-none p-0
+                               focus:ring-0
+                               font-body-md text-body-md
+                               text-on-surface
+                               truncate cursor-default"
+                        type="text"
+                        value="{{ invite_url }}"
+                        readonly
+                    >
+
+                    <button
+                        type="button"
+                        id="copyInviteBtn"
+                        onclick="copyInviteLink()"
+                        class="ml-2 px-4 py-2
+                               bg-primary text-on-primary
+                               rounded-lg
+                               font-label-sm text-label-sm
+                               hover:bg-primary/90
+                               transition-colors
+                               flex items-center gap-2
+                               shrink-0"
+                    >
+                        <span
+                            id="copyInviteIcon"
+                            class="material-symbols-outlined text-[18px]"
+                        >
+                            content_copy
+                        </span>
+
+                        <span id="copyInviteText">
+                            Copy
+                        </span>
+                    </button>
+
+                </div>
+
+
+                <!-- Share Button -->
+                <button
+                    type="button"
+                    onclick="shareInviteLink()"
+                    class="w-full mt-4
+                           py-3 px-4
+                           border border-outline-variant
+                           rounded-xl
+                           font-label-sm text-label-sm
+                           text-on-surface
+                           hover:bg-surface-variant
+                           transition-colors
+                           flex items-center justify-center gap-2"
+                >
+                    <span class="material-symbols-outlined text-[20px]">
+                        share
+                    </span>
+
+                    Share Invite Link
+                </button>
+
+            </div>
+
+{% comment %} 
+            <!-- Divider -->
+            <div class="flex items-center gap-4 my-8">
+
+                <div class="flex-1 h-px bg-outline-variant"></div>
+
+                <span
+                    class="font-label-xs text-label-xs
+                           text-on-surface-variant"
+                >
+                    OR
+                </span>
+
+                <div class="flex-1 h-px bg-outline-variant"></div>
+
+            </div>
+
+
+            <!-- QR Code Section -->
+            <div class="flex flex-col items-center text-center">
+
+                <div
+                    class="w-12 h-12 rounded-full
+                           bg-surface-container-low
+                           flex items-center justify-center
+                           text-primary mb-3"
+                >
+                    <span class="material-symbols-outlined">
+                        qr_code_2
+                    </span>
+                </div>
+
+                <h3 class="font-title-md text-title-md text-on-surface">
+                    QR Code
+                </h3>
+
+                <p
+                    class="font-body-sm text-body-sm
+                           text-on-surface-variant
+                           max-w-sm mt-1 mb-5"
+                >
+                    Scan this QR code with a smartphone
+                    to access the group invite.
+                </p>
+
+
+                <!-- QR Container -->
+                <div
+                    class="p-4 bg-white rounded-2xl
+                           shadow-sm
+                           border border-outline-variant"
+                >
+
+                    <!-- Replace this with generated QR code -->
+                    <div
+                        id="inviteQRCode"
+                        class="w-48 h-48
+                               bg-surface-container
+                               flex items-center justify-center
+                               rounded-lg
+                               border-2 border-dashed
+                               border-outline-variant"
+                    >
+
+                        <span
+                            class="material-symbols-outlined
+                                   text-[48px] text-primary"
+                        >
+                            qr_code_2
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Download QR -->
+                <button
+                    type="button"
+                    onclick="downloadQRCode()"
+                    class="mt-5 px-6 py-2
+                           border border-outline
+                           font-label-sm text-label-sm
+                           text-on-surface
+                           rounded-full
+                           hover:bg-surface-variant
+                           transition-colors
+                           flex items-center gap-2"
+                >
+
+                    <span class="material-symbols-outlined text-[18px]">
+                        download
+                    </span>
+
+                    Download QR Code
+
+                </button>
+
+            </div>
+
+        </div> {% endcomment %}
+
+
+        <!-- Modal Footer -->
+        <div
+            class="px-lg py-md
+                   border-t border-outline-variant
+                   bg-surface/50
+                   flex justify-end"
+        >
+
+            <button
+                type="button"
+                onclick="closeInviteModal()"
+                class="px-6 py-2
+                       rounded-full
+                       font-label-sm text-label-sm
+                       text-on-surface
+                       font-semibold
+                       hover:bg-surface-variant
+                       transition-colors"
+            >
+                Done
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- INVITE MODAL JAVASCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+function openInviteModal() {
+
+    const modal = document.getElementById("inviteModal");
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+
+    document.body.classList.add("overflow-hidden");
+}
+
+
+function closeInviteModal() {
+
+    const modal = document.getElementById("inviteModal");
+
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+
+    document.body.classList.remove("overflow-hidden");
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Copy Invite Link
+|--------------------------------------------------------------------------
+*/
+
+function copyInviteLink() {
+
+    const input = document.getElementById("inviteLink");
+    const buttonText = document.getElementById("copyInviteText");
+    const icon = document.getElementById("copyInviteIcon");
+
+    navigator.clipboard.writeText(input.value)
+        .then(function () {
+
+            buttonText.textContent = "Copied!";
+            icon.textContent = "check";
+
+            setTimeout(function () {
+
+                buttonText.textContent = "Copy";
+                icon.textContent = "content_copy";
+
+            }, 2000);
+
+        })
+        .catch(function () {
+
+            input.select();
+            document.execCommand("copy");
+
+            buttonText.textContent = "Copied!";
+            icon.textContent = "check";
+
+            setTimeout(function () {
+
+                buttonText.textContent = "Copy";
+                icon.textContent = "content_copy";
+
+            }, 2000);
+
+        });
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Native Share
+|--------------------------------------------------------------------------
+*/
+
+function shareInviteLink() {
+
+    const input = document.getElementById("inviteLink");
+    const inviteUrl = input.value;
+
+    if (navigator.share) {
+
+        navigator.share({
+            title: "Join my Osusu Savings Group",
+            text: "Join my Osusu savings group using this invite link.",
+            url: inviteUrl
+        });
+
+    } else {
+
+        copyInviteLink();
+
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Close Modal When Clicking Outside
+|--------------------------------------------------------------------------
+*/
+
+document.getElementById("inviteModal").addEventListener(
+    "click",
+    function (event) {
+
+        if (event.target === this) {
+            closeInviteModal();
+        }
+
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| Escape Key
+|--------------------------------------------------------------------------
+*/
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Escape") {
+            closeInviteModal();
+        }
+
+    }
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| QR Download Placeholder
+|--------------------------------------------------------------------------
+|
+| We'll connect this to the actual generated QR image
+| once we implement QR generation in Django.
+|
+*/
+
+function downloadQRCode() {
+
+    const qrCode = document.getElementById("inviteQRCode");
+
+    // QR download functionality will be connected
+    // once the actual QR image is generated.
+
+    console.log("Download QR Code:", qrCode);
+
+}
+
+</script>
+
