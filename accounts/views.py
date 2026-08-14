@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from wallet.models import Wallet
 
 from .forms import LoginForm, RegisterForm
 
@@ -30,6 +31,13 @@ def register(request):
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user=form.save()
+            Wallet.objects.create(
+            user=user,
+            balance=0,
+            reserved_balance=0,
+            total_deposited=0,
+            total_withdrawn=0
+        )
             login(request,user)
             messages.success(request,"Account created successfully. You can now login.")
             return redirect("dashboard")
