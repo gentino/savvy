@@ -1,419 +1,453 @@
+{% load humanize %}
 <!DOCTYPE html>
 
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Savvy - Notifications</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
+<html class="h-full bg-surface-bright dark:bg-surface-dim" lang="en">
+
+<head>
+
+    <meta charset="utf-8"/>
+
+    <meta
+        content="width=device-width, initial-scale=1.0"
+        name="viewport"
+    />
+
+    <title>Savvy - Notifications</title>
+
+
+    <!-- Fonts -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    />
+
+
+    <!-- Tailwind -->
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+    <script id="tailwind-config">
+
         tailwind.config = {
+
             darkMode: "class",
+
             theme: {
+
                 extend: {
-                    "colors": {
-                        "tertiary": "#006b2d",
-                        "on-surface": "#0b1c30",
-                        "secondary-fixed-dim": "#79db8d",
-                        "secondary": "#006d30",
+
+                    colors: {
+
+                        "surface-container-high": "#dce9ff",
                         "primary-container": "#00873a",
-                        "surface-container": "#e5eeff",
-                        "on-primary": "#ffffff",
-                        "background": "#f8f9ff",
-                        "surface-tint": "#006e2d",
-                        "surface": "#f8f9ff",
-                        "inverse-primary": "#62df7d",
-                        "surface-variant": "#d3e4fe",
-                        "on-tertiary-container": "#f7fff3",
-                        "tertiary-fixed": "#6bff8f",
-                        "outline-variant": "#bdcaba",
-                        "secondary-container": "#92f5a4",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#cbdbf5",
+                        "error": "#ba1a1a",
+                        "secondary": "#006d30",
                         "on-secondary-fixed-variant": "#005323",
-                        "secondary-fixed": "#95f8a7",
-                        "inverse-on-surface": "#eaf1ff",
-                        "on-tertiary-fixed": "#002109",
-                        "on-primary-fixed": "#002109",
-                        "inverse-surface": "#213145",
-                        "tertiary-fixed-dim": "#4ae176",
-                        "outline": "#6e7b6c",
-                        "error-container": "#ffdad6",
-                        "on-surface-variant": "#3e4a3d",
-                        "on-error": "#ffffff",
-                        "on-secondary-container": "#007233",
+                        "secondary-container": "#92f5a4",
+                        "on-tertiary-container": "#f7fff3",
+                        "surface-variant": "#d3e4fe",
                         "surface-container-highest": "#d3e4fe",
-                        "surface-bright": "#f8f9ff",
-                        "primary": "#006b2c",
-                        "surface-container-low": "#eff4ff",
-                        "primary-fixed-dim": "#62df7d",
-                        "on-secondary-fixed": "#00210a",
-                        "primary-fixed": "#7ffc97",
-                        "tertiary-container": "#00873b",
-                        "on-primary-container": "#f7fff2",
-                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#213145",
+                        "on-surface": "#0b1c30",
+                        "secondary-fixed": "#95f8a7",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#6e7b6c",
                         "on-tertiary-fixed-variant": "#005321",
                         "on-background": "#0b1c30",
-                        "surface-container-high": "#dce9ff",
-                        "on-primary-fixed-variant": "#005320",
-                        "on-tertiary": "#ffffff",
-                        "error": "#ba1a1a",
-                        "surface-dim": "#cbdbf5",
                         "surface-container-lowest": "#ffffff",
-                        "on-error-container": "#93000a"
+                        "tertiary-fixed-dim": "#4ae176",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#bdcaba",
+                        "secondary-fixed-dim": "#79db8d",
+                        "on-primary-container": "#f7fff2",
+                        "surface-tint": "#006e2d",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#7ffc97",
+                        "tertiary": "#006b2d",
+                        "on-surface-variant": "#3e4a3d",
+                        "surface-container": "#e5eeff",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed": "#002109",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "on-error": "#ffffff",
+                        "primary": "#006b2c",
+                        "tertiary-container": "#00873b",
+                        "on-secondary-fixed": "#00210a",
+                        "primary-fixed-dim": "#62df7d",
+                        "inverse-primary": "#62df7d",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#005320",
+                        "tertiary-fixed": "#6bff8f",
+                        "on-secondary-container": "#007233",
+                        "on-primary-fixed": "#002109"
+
                     },
-                    "borderRadius": {
+
+
+                    borderRadius: {
+
                         "DEFAULT": "0.25rem",
                         "lg": "0.5rem",
                         "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
                         "full": "9999px"
+
                     },
-                    "spacing": {
-                        "container-max": "1280px",
+
+
+                    spacing: {
+
+                        "xl": "32px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "container-max": "1400px",
                         "base": "8px",
-                        "xxl": "48px",
                         "sm": "12px",
                         "md": "16px",
-                        "xl": "32px",
-                        "xs": "4px",
-                        "lg": "24px"
+                        "xxl": "48px"
+
                     },
-                    "fontFamily": {
+
+
+                    fontFamily: {
+
+                        "title-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-xs": ["Inter"],
                         "display-lg": ["Inter"],
                         "label-sm": ["Inter"],
-                        "body-lg": ["Inter"],
                         "headline-lg-mobile": ["Inter"],
-                        "label-xs": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "title-md": ["Inter"],
-                        "body-md": ["Inter"]
+                        "headline-lg": ["Inter"]
+
                     },
-                    "fontSize": {
-                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "label-sm": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "label-xs": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
-                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
-                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+
+
+                    fontSize: {
+
+                        "title-md": [
+                            "20px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "body-md": [
+                            "16px",
+                            {
+                                lineHeight: "24px",
+                                fontWeight: "400"
+                            }
+                        ],
+
+                        "body-lg": [
+                            "18px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "400"
+                            }
+                        ],
+
+                        "label-xs": [
+                            "12px",
+                            {
+                                lineHeight: "16px",
+                                letterSpacing: "0.03em",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "label-sm": [
+                            "14px",
+                            {
+                                lineHeight: "20px",
+                                letterSpacing: "0.01em",
+                                fontWeight: "500"
+                            }
+                        ],
+
+                        "headline-lg-mobile": [
+                            "24px",
+                            {
+                                lineHeight: "32px",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "headline-lg": [
+                            "32px",
+                            {
+                                lineHeight: "40px",
+                                letterSpacing: "-0.01em",
+                                fontWeight: "600"
+                            }
+                        ]
+
                     }
+
                 }
+
             }
+
         }
+
     </script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
-        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+
+
+    <style>
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: Inter, sans-serif;
+        }
+
+
+        .notification-card {
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+
+        }
+
+
+        .notification-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px -10px
+                rgba(11, 28, 48, 0.15);
+
+        }
+
+
+        .material-symbols-outlined {
+
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+
+        }
+
+
+        .material-symbols-outlined.fill {
+
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+
+        }
+
     </style>
+
 </head>
-<body class="bg-background text-on-surface font-body-md min-h-screen antialiased flex">
-<!-- SideNavBar -->
-<nav class="fixed left-0 top-0 h-screen w-72 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline shadow-none z-50">
-<div class="p-md space-y-base flex flex-col h-full">
-<!-- Header -->
-<div class="flex items-center gap-sm mb-lg px-2 pt-4">
-<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold font-title-md shrink-0">O</div>
-<div>
-<h1 class="font-title-md text-title-md text-primary dark:text-primary-fixed-dim">Osusu Savings</h1>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Community Finance</p>
-</div>
-</div>
-<!-- Tabs -->
-<div class="flex-1 space-y-1">
-<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="font-label-sm text-label-sm">Dashboard</span>
-</a>
-<a class="flex items-center gap-sm px-4 py-3 bg-secondary-container text-on-secondary-container rounded-xl font-bold transition-all shadow-sm" href="#">
-<span class="material-symbols-outlined fill">group</span>
-<span class="font-label-sm text-label-sm">My Groups</span>
-</a>
-<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
-<span class="material-symbols-outlined">payments</span>
-<span class="font-label-sm text-label-sm">Contributions</span>
-</a>
-<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
-<span class="material-symbols-outlined">account_balance_wallet</span>
-<span class="font-label-sm text-label-sm">Wallet</span>
-</a>
-<a class="flex items-center gap-sm px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
-<span class="material-symbols-outlined">analytics</span>
-<span class="font-label-sm text-label-sm">Reports</span>
-</a>
-</div>
-<!-- CTA & Footer -->
-<div class="mt-auto space-y-4 pb-4">
-<button class="w-full bg-primary hover:bg-tertiary-container text-on-primary py-3 rounded-xl font-label-sm text-label-sm font-semibold transition-colors flex justify-center items-center gap-2 shadow-sm">
-<span class="material-symbols-outlined text-[20px]">add</span> Create Group
-                </button>
-<div class="space-y-1 pt-4 border-t border-outline-variant/30">
-<a class="flex items-center gap-sm px-4 py-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">settings</span>
-<span class="font-label-sm text-label-sm">Settings</span>
-</a>
-<a class="flex items-center gap-sm px-4 py-2 text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="#">
-<span class="material-symbols-outlined text-[20px]">logout</span>
-<span class="font-label-sm text-label-sm">Logout</span>
-</a>
-</div>
-</div>
-</div>
-</nav>
-<!-- Main Content -->
-<main class="flex-1 md:ml-72 flex flex-col min-h-screen">
-<!-- TopNavBar -->
-<header class="docked full-width top-0 sticky backdrop-blur-xl bg-surface/70 border-b border-outline-variant shadow-sm z-40">
-<div class="flex justify-between items-center w-full px-4 md:px-lg py-sm">
-<!-- Search (Left) -->
-<div class="flex-1 max-w-md hidden md:flex items-center">
-<div class="relative w-full">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
-<input class="w-full pl-10 pr-4 py-2 rounded-full border-outline-variant bg-surface-container-highest focus:ring-2 focus:ring-primary focus:border-transparent font-body-md text-body-md text-on-surface" placeholder="Search Osusu..." type="text"/>
-</div>
-</div>
-<!-- Mobile Brand (Centerish on mobile) -->
-<div class="md:hidden flex-1 text-center font-display-lg text-title-md font-bold text-primary">
-                    Osusu
-                </div>
-<!-- Actions (Right) -->
-<div class="flex items-center gap-sm">
-<button class="w-10 h-10 rounded-full hover:bg-surface-variant flex items-center justify-center text-on-surface-variant transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="w-10 h-10 rounded-full hover:bg-surface-variant flex items-center justify-center text-on-surface-variant transition-colors hidden md:flex">
-<span class="material-symbols-outlined">help</span>
-</button>
-<button class="w-10 h-10 rounded-full bg-surface-variant ml-2 border border-outline-variant overflow-hidden">
-{% if user.profile_photo %}
-        <img class="w-full h-full object-cover"  src="{{user.profile_photo.url}}" alt="{{ user.get_full_name }}"/>
-    {% else %}
-        <img class="w-full h-full object-cover"  src=""/>
-    {% endif %}
-</button>
-</div>
-</div>
-</header>
-<!-- Page Content -->
-<div class="flex-1 p-4 md:p-lg space-y-xl max-w-container-max mx-auto w-full">
-<!-- Header Section -->
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-<div>
-<!-- Breadcrumbs -->
-<nav aria-label="Breadcrumb" class="flex text-label-sm text-on-surface-variant mb-2 items-center space-x-1">
-<a class="hover:text-primary transition-colors" href="{% url 'groups' %}">My Groups</a>
-<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-<span class="text-on-surface font-medium">Notifications</span>
-</nav>
-<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Nofitications</h2>
-</div>
-</div>
-
-<div class="grid grid-cols-1 lg:grid-cols-1 gap-lg items-start">
-<div class="space-y-4">
-
-    
-{% for notification in notifications %}
-
-<div class="bg-surface-container-lowest rounded-2xl p-md border
-    {% if notification.is_read %}
-        border-outline-variant
-    {% else %}
-        border-primary/30 bg-primary/5
-    {% endif %}
-    transition-all hover:shadow-sm
-">
-
-    <div class="flex items-start gap-4">
-
-        <!-- Notification Icon -->
-        <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0
-            {% if notification.is_read %}
-                bg-surface-container text-on-surface-variant
-            {% else %}
-                bg-primary/10 text-primary
-            {% endif %}
-        ">
-
-            {% if notification.type == "join_request" %}
-
-                <span class="material-symbols-outlined">
-                    person_add
-                </span>
-
-            {% elif notification.type == "join_approved" %}
-
-                <span class="material-symbols-outlined">
-                    check_circle
-                </span>
-
-            {% elif notification.type == "join_rejected" %}
-
-                <span class="material-symbols-outlined">
-                    person_remove
-                </span>
-
-            {% elif notification.type == "member_joined" %}
-
-                <span class="material-symbols-outlined">
-                    group_add
-                </span>
-
-            {% elif notification.type == "contribution" %}
-
-                <span class="material-symbols-outlined">
-                    payments
-                </span>
-
-            {% elif notification.type == "deposit" %}
-
-                <span class="material-symbols-outlined">
-                    account_balance
-                </span>
-
-            {% elif notification.type == "deposit_approved" %}
-
-                <span class="material-symbols-outlined">
-                    check_circle
-                </span>
-
-            {% elif notification.type == "deposit_rejected" %}
-
-                <span class="material-symbols-outlined">
-                    cancel
-                </span>
-
-            {% elif notification.type == "withdrawal" %}
-
-                <span class="material-symbols-outlined">
-                    account_balance_wallet
-                </span>
-
-            {% else %}
-
-                <span class="material-symbols-outlined">
-                    notifications
-                </span>
-
-            {% endif %}
-
-        </div>
 
 
-        <!-- Notification Content -->
-        <div class="flex-1 min-w-0">
-
-            <div class="flex items-start justify-between gap-3">
-
-                <div class="flex-1">
-
-                    <!-- Notification Title -->
-                    <p class="font-label-sm text-on-surface font-semibold">
-
-                        {% if notification.type == "join_request" %}
-                            New Join Request
-
-                        {% elif notification.type == "join_approved" %}
-                            Request Approved
-
-                        {% elif notification.type == "join_rejected" %}
-                            Request Rejected
-
-                        {% elif notification.type == "member_joined" %}
-                            New Member
-
-                        {% elif notification.type == "contribution" %}
-                            New Contribution
-
-                        {% elif notification.type == "deposit" %}
-                            Deposit Request
-
-                        {% elif notification.type == "deposit_approved" %}
-                            Deposit Approved
-
-                        {% elif notification.type == "deposit_rejected" %}
-                            Deposit Rejected
-
-                        {% elif notification.type == "withdrawal" %}
-                            Withdrawal Request
-
-                        {% elif notification.type == "withdrawal_approved" %}
-                            Withdrawal Approved
-
-                        {% elif notification.type == "withdrawal_rejected" %}
-                            Withdrawal Rejected
-
-                        {% else %}
-                            Notification
-                        {% endif %}
-
-                    </p>
+<body
+    class="min-h-screen bg-surface-bright
+    text-on-surface antialiased"
+>
 
 
-                    <!-- Message -->
-                    <p class="font-body-sm text-on-surface-variant mt-1 leading-relaxed">
-                        {{ notification.message }}
-                    </p>
+<!-- ========================================================= -->
+<!-- SIDEBAR -->
+<!-- ========================================================= -->
+
+<aside
+    class="fixed left-0 top-0 h-screen w-72
+    hidden md:flex flex-col
+    bg-surface-container-low
+    dark:bg-surface-container-lowest
+    border-r border-outline-variant
+    dark:border-outline
+    p-md space-y-base
+    z-50"
+>
 
 
-                    <!-- Footer -->
-                    <div class="flex items-center gap-2 mt-3">
-
-                        <span class="material-symbols-outlined text-[16px] text-outline">
-                            schedule
-                        </span>
-
-                        <span class="font-label-xs text-on-surface-variant">
-                            {{ notification.created_at|timesince }} ago
-                        </span>
-
-                    </div>
-
-                </div>
+    {% include '../includes/logo.html'%}
 
 
-                <!-- Unread Indicator -->
-                {% if not notification.is_read %}
+    <!-- Navigation -->
 
-                    <span
-                        class="w-2.5 h-2.5 rounded-full bg-primary shrink-0 mt-1"
-                        title="Unread">
-                    </span>
-
-                {% endif %}
-
-            </div>
-
-        </div>
-
-    </div>
+    <nav class="flex-1 space-y-xs pt-2">
 
 
-    <!-- Delete Action -->
-    <div class="flex justify-end mt-3 pt-3 border-t border-outline-variant/50">
+        <!-- Dashboard -->
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="flex items-center gap-md
+            px-md py-sm
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            font-label-sm text-label-sm
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                dashboard
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <!-- My Groups -->
+
+        <a
+            href="{% url 'groups' %}"
+            class="flex items-center gap-md
+            px-md py-sm
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            font-label-sm text-label-sm
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                group
+            </span>
+
+            My Groups
+
+        </a>
+
+
+        <!-- Wallet -->
+
+        <a
+            href="{% url 'wallet' %}"
+            class="flex items-center gap-md
+            px-md py-sm
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            font-label-sm text-label-sm
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                account_balance_wallet
+            </span>
+
+            Wallet
+
+        </a>
+
+
+        <!-- Notifications -->
+
+        <a
+            href="{% url 'notifications' %}"
+            class="flex items-center gap-md
+            px-md py-sm
+            bg-secondary-container
+            text-on-secondary-container
+            rounded-xl
+            font-label-sm text-label-sm
+            font-bold
+            translate-x-1
+            transition-transform"
+        >
+
+            <span
+                class="material-symbols-outlined"
+                style="font-variation-settings:'FILL' 1;"
+            >
+                notifications
+            </span>
+
+            Notifications
+
+        </a>
+
+    </nav>
+
+
+    <!-- Create Group -->
+
+    <a
+        href="{% url 'create_group' %}"
+        class="block w-full
+        bg-primary text-on-primary
+        font-label-sm text-label-sm
+        py-md rounded-xl
+        font-bold shadow-sm
+        hover:opacity-90
+        transition-opacity
+        flex items-center
+        justify-center gap-sm
+        mt-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            add
+        </span>
+
+        Create Group
+
+    </a>
+
+
+    <!-- Logout -->
+
+    <div
+        class="pt-lg
+        border-t border-outline-variant
+        space-y-xs"
+    >
 
         <form
             method="POST"
-            action="{% url 'delete_notification' notification.id %}"
-            onsubmit="return confirm('Are you sure you want to delete this notification?');"
+            action="{% url 'logout' %}"
         >
 
             {% csrf_token %}
 
             <button
                 type="submit"
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg
-                       text-error hover:bg-error/10
-                       transition-colors font-label-xs"
-                title="Delete notification"
+                class="w-full
+                flex items-center gap-md
+                px-md py-sm
+                text-on-surface-variant
+                hover:bg-surface-variant/50
+                rounded-xl
+                font-label-sm text-label-sm
+                transition-all"
             >
 
-                <span class="material-symbols-outlined text-[17px]">
-                    delete
+                <span class="material-symbols-outlined">
+                    logout
                 </span>
 
-                Delete
+                Logout
 
             </button>
 
@@ -421,31 +455,1317 @@
 
     </div>
 
-</div>
+</aside>
 
-{% endfor %}
 
-</div>
-</div>
+<!-- ========================================================= -->
+<!-- TOP NAVIGATION -->
+<!-- ========================================================= -->
+
+<header
+    class="fixed top-0 right-0 left-0 md:left-72
+    z-40
+    bg-surface/80
+    backdrop-blur-xl
+    border-b border-outline-variant
+    flex justify-between
+    items-center
+    px-4 md:px-lg
+    py-sm
+    shadow-sm"
+>
+
+
+    <div
+        class="flex items-center
+        gap-md flex-1"
+    >
+
+
+        <!-- Mobile Logo -->
+
+        <div
+            class="md:hidden
+            w-10 h-10
+            rounded-lg
+            flex items-center
+            justify-center"
+        >
+
+            {% include '../includes/logo.html'%}
+
+        </div>
+
+
+        <!-- Page Title -->
+
+        <div class="hidden sm:block">
+
+            <p
+                class="text-xs
+                font-semibold
+                text-on-surface-variant
+                uppercase
+                tracking-wide"
+            >
+                Savvy
+
+            </p>
+
+
+            <h2
+                class="text-xl md:text-2xl
+                font-bold
+                text-primary"
+            >
+                Notifications
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Header Actions -->
+
+    <div
+        class="flex items-center
+        gap-md"
+    >
+
+
+        <!-- Notification -->
+
+        <a
+            href="{% url 'notifications' %}"
+            class="w-10 h-10
+            flex items-center
+            justify-center
+            text-primary
+            bg-primary/10
+            rounded-xl
+            transition-all"
+        >
+
+            <span
+                class="material-symbols-outlined"
+                style="font-variation-settings:'FILL' 1;"
+            >
+                notifications
+            </span>
+
+        </a>
+
+
+        <!-- Profile -->
+
+        <div
+            class="h-10 w-10
+            rounded-full
+            border-2 border-primary/20
+            overflow-hidden
+            bg-surface-container"
+        >
+
+            {% include '../includes/profilepic.html'%}
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ========================================================= -->
+<!-- MAIN CONTENT -->
+<!-- ========================================================= -->
+
+<main
+    class="pt-24 pb-24
+    md:pb-12
+    pl-0 md:pl-72
+    min-h-screen"
+>
+
+
+    {% include '../includes/messages.html' %}
+
+
+    <div
+        class="max-w-[1400px]
+        mx-auto
+        px-4 sm:px-6
+        lg:px-8
+        py-6 lg:py-8"
+    >
+
+
+        <!-- ================================================= -->
+        <!-- PAGE HEADER -->
+        <!-- ================================================= -->
+
+        <section
+            class="mb-7"
+        >
+
+            <!-- Breadcrumb -->
+
+            <nav
+                aria-label="Breadcrumb"
+                class="flex items-center
+                gap-1
+                text-label-sm
+                text-on-surface-variant
+                mb-4"
+            >
+
+                <a
+                    href="{% url 'groups' %}"
+                    class="hover:text-primary
+                    transition-colors"
+                >
+                    My Groups
+                </a>
+
+
+                <span
+                    class="material-symbols-outlined
+                    text-[16px]"
+                >
+                    chevron_right
+                </span>
+
+
+                <span
+                    class="text-on-surface
+                    font-medium"
+                >
+                    Notifications
+                </span>
+
+            </nav>
+
+
+            <!-- Heading -->
+
+            <div
+                class="flex flex-col
+                lg:flex-row
+                lg:items-end
+                lg:justify-between
+                gap-5"
+            >
+
+                <div>
+
+                    <div
+                        class="flex items-center
+                        gap-3 mb-2"
+                    >
+
+                        <div
+                            class="w-12 h-12
+                            rounded-2xl
+                            bg-primary
+                            text-on-primary
+                            flex items-center
+                            justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined
+                                text-2xl"
+                            >
+                                notifications
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <h1
+                                class="text-2xl
+                                md:text-3xl
+                                lg:text-4xl
+                                font-bold
+                                text-on-surface"
+                            >
+                                Notifications
+                            </h1>
+
+                            <p
+                                class="text-sm
+                                md:text-base
+                                text-on-surface-variant
+                                mt-1"
+                            >
+                                Stay updated with activity
+                                across your savings groups.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- NOTIFICATION AREA -->
+        <!-- ================================================= -->
+
+        <div
+            class="grid grid-cols-1
+            xl:grid-cols-3
+            gap-6 lg:gap-7"
+        >
+
+
+            <!-- ================================================= -->
+            <!-- NOTIFICATIONS LIST -->
+            <!-- ================================================= -->
+
+            <section
+                class="xl:col-span-2
+                space-y-4"
+            >
+
+
+                {% for notification in notifications %}
+
+
+                <!-- Notification Card -->
+
+                <article
+                    class="notification-card
+                    bg-surface
+                    rounded-2xl
+                    border
+                    {% if notification.is_read %}
+                        border-outline-variant
+                    {% else %}
+                        border-primary/30
+                        bg-primary/[0.035]
+                    {% endif %}
+                    overflow-hidden"
+                >
+
+
+                    <div
+                        class="p-5 md:p-6"
+                    >
+
+                        <div
+                            class="flex items-start
+                            gap-4"
+                        >
+
+
+                            <!-- ICON -->
+
+                            <div
+                                class="w-12 h-12
+                                rounded-xl
+                                flex items-center
+                                justify-center
+                                shrink-0
+
+                                {% if notification.is_read %}
+                                    bg-surface-container
+                                    text-on-surface-variant
+                                {% else %}
+                                    bg-primary/10
+                                    text-primary
+                                {% endif %}"
+                            >
+
+
+                                {% if notification.type == "join_request" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        person_add
+                                    </span>
+
+
+                                {% elif notification.type == "join_approved" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        check_circle
+                                    </span>
+
+
+                                {% elif notification.type == "join_rejected" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        person_remove
+                                    </span>
+
+
+                                {% elif notification.type == "member_joined" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        group_add
+                                    </span>
+
+
+                                {% elif notification.type == "contribution" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        payments
+                                    </span>
+
+
+                                {% elif notification.type == "deposit" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        account_balance
+                                    </span>
+
+
+                                {% elif notification.type == "deposit_approved" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        check_circle
+                                    </span>
+
+
+                                {% elif notification.type == "deposit_rejected" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        cancel
+                                    </span>
+
+
+                                {% elif notification.type == "withdrawal" %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        account_balance_wallet
+                                    </span>
+
+
+                                {% else %}
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                    >
+                                        notifications
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- CONTENT -->
+
+                            <div
+                                class="flex-1
+                                min-w-0"
+                            >
+
+
+                                <div
+                                    class="flex
+                                    items-start
+                                    justify-between
+                                    gap-3"
+                                >
+
+
+                                    <div
+                                        class="min-w-0
+                                        flex-1"
+                                    >
+
+
+                                        <!-- TITLE -->
+
+                                        <div
+                                            class="flex
+                                            items-center
+                                            gap-2"
+                                        >
+
+                                            <p
+                                                class="text-base
+                                                font-semibold
+                                                text-on-surface"
+                                            >
+
+
+                                                {% if notification.type == "join_request" %}
+
+                                                    New Join Request
+
+
+                                                {% elif notification.type == "join_approved" %}
+
+                                                    Request Approved
+
+
+                                                {% elif notification.type == "join_rejected" %}
+
+                                                    Request Rejected
+
+
+                                                {% elif notification.type == "member_joined" %}
+
+                                                    New Member
+
+
+                                                {% elif notification.type == "contribution" %}
+
+                                                    New Contribution
+
+
+                                                {% elif notification.type == "deposit" %}
+
+                                                    Deposit Request
+
+
+                                                {% elif notification.type == "deposit_approved" %}
+
+                                                    Deposit Approved
+
+
+                                                {% elif notification.type == "deposit_rejected" %}
+
+                                                    Deposit Rejected
+
+
+                                                {% elif notification.type == "withdrawal" %}
+
+                                                    Withdrawal Request
+
+
+                                                {% elif notification.type == "withdrawal_approved" %}
+
+                                                    Withdrawal Approved
+
+
+                                                {% elif notification.type == "withdrawal_rejected" %}
+
+                                                    Withdrawal Rejected
+
+
+                                                {% else %}
+
+                                                    Notification
+
+                                                {% endif %}
+
+
+                                            </p>
+
+
+                                            {% if not notification.is_read %}
+
+                                                <span
+                                                    class="px-2 py-0.5
+                                                    rounded-full
+                                                    bg-primary/10
+                                                    text-primary
+                                                    text-[10px]
+                                                    font-bold
+                                                    uppercase
+                                                    tracking-wide"
+                                                >
+                                                    New
+                                                </span>
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <!-- MESSAGE -->
+
+                                        <p
+                                            class="text-sm
+                                            md:text-base
+                                            text-on-surface-variant
+                                            mt-2
+                                            leading-relaxed"
+                                        >
+
+                                            {{ notification.message }}
+
+                                        </p>
+
+
+                                        <!-- DATE -->
+
+                                        <div
+                                            class="flex
+                                            items-center
+                                            gap-2
+                                            mt-4"
+                                        >
+
+                                            <span
+                                                class="material-symbols-outlined
+                                                text-[17px]
+                                                text-outline"
+                                            >
+                                                schedule
+                                            </span>
+
+                                            <span
+                                                class="text-xs
+                                                text-on-surface-variant"
+                                            >
+                                                {{ notification.created_at|timesince }} ago
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- UNREAD DOT -->
+
+                                    {% if not notification.is_read %}
+
+                                        <span
+                                            class="w-2.5 h-2.5
+                                            rounded-full
+                                            bg-primary
+                                            shrink-0
+                                            mt-2"
+                                            title="Unread"
+                                        >
+                                        </span>
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DELETE -->
+
+                        <div
+                            class="flex
+                            justify-end
+                            mt-5 pt-4
+                            border-t
+                            border-outline-variant/50"
+                        >
+
+                            <form
+                                method="POST"
+                                action="{% url 'delete_notification' notification.id %}"
+                                onsubmit="return confirm('Are you sure you want to delete this notification?');"
+                            >
+
+                                {% csrf_token %}
+
+
+                                <button
+                                    type="submit"
+                                    class="flex
+                                    items-center
+                                    gap-1.5
+                                    px-3 py-2
+                                    rounded-lg
+                                    text-error
+                                    hover:bg-error/10
+                                    transition-colors
+                                    text-xs
+                                    font-semibold"
+                                >
+
+                                    <span
+                                        class="material-symbols-outlined
+                                        text-[17px]"
+                                    >
+                                        delete
+                                    </span>
+
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                {% empty %}
+
+
+                <!-- EMPTY STATE -->
+
+                <div
+                    class="bg-surface
+                    rounded-3xl
+                    border border-outline-variant
+                    p-10 md:p-16
+                    text-center"
+                >
+
+                    <div
+                        class="w-20 h-20
+                        mx-auto mb-6
+                        rounded-full
+                        bg-primary/10
+                        text-primary
+                        flex items-center
+                        justify-center"
+                    >
+
+                        <span
+                            class="material-symbols-outlined
+                            text-4xl"
+                        >
+                            notifications_off
+                        </span>
+
+                    </div>
+
+
+                    <h2
+                        class="text-xl
+                        md:text-2xl
+                        font-bold
+                        text-on-surface
+                        mb-2"
+                    >
+                        No notifications yet
+                    </h2>
+
+
+                    <p
+                        class="text-sm
+                        md:text-base
+                        text-on-surface-variant
+                        max-w-md
+                        mx-auto"
+                    >
+                        You're all caught up.
+                        New activity from your savings
+                        groups will appear here.
+                    </p>
+
+                </div>
+
+
+                {% endfor %}
+
+
+            </section>
+
+
+            <!-- ================================================= -->
+            <!-- RIGHT INFORMATION PANEL -->
+            <!-- ================================================= -->
+
+            <aside
+                class="space-y-6"
+            >
+
+
+                <!-- Notification Overview -->
+
+                <section
+                    class="bg-surface
+                    rounded-3xl
+                    border border-outline-variant
+                    p-6
+                    shadow-sm"
+                >
+
+                    <div
+                        class="flex items-center
+                        gap-3 mb-6"
+                    >
+
+                        <div
+                            class="w-10 h-10
+                            rounded-xl
+                            bg-primary/10
+                            text-primary
+                            flex items-center
+                            justify-center"
+                        >
+
+                            <span
+                                class="material-symbols-outlined"
+                            >
+                                notifications_active
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <h3
+                                class="font-bold
+                                text-lg
+                                text-on-surface"
+                            >
+                                Notifications
+                            </h3>
+
+                            <p
+                                class="text-xs
+                                text-on-surface-variant"
+                            >
+                                Your recent activity
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="rounded-2xl
+                        bg-surface-container-low
+                        p-5"
+                    >
+
+                        <div
+                            class="flex
+                            items-center
+                            justify-between"
+                        >
+
+                            <div>
+
+                                <p
+                                    class="text-xs
+                                    uppercase
+                                    tracking-wide
+                                    font-semibold
+                                    text-on-surface-variant"
+                                >
+                                    Total
+                                </p>
+
+                                <p
+                                    class="text-3xl
+                                    font-bold
+                                    text-on-surface
+                                    mt-1"
+                                >
+                                    {{ notifications|length }}
+                                </p>
+
+                            </div>
+
+
+                            <div
+                                class="w-12 h-12
+                                rounded-xl
+                                bg-primary
+                                text-on-primary
+                                flex items-center
+                                justify-center"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined"
+                                >
+                                    notifications
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- Quick Links -->
+
+                <section
+                    class="bg-surface
+                    rounded-3xl
+                    border border-outline-variant
+                    p-6
+                    shadow-sm"
+                >
+
+                    <h3
+                        class="font-bold
+                        text-lg
+                        text-on-surface
+                        mb-5"
+                    >
+                        Quick Links
+                    </h3>
+
+
+                    <div class="space-y-2">
+
+
+                        <!-- Groups -->
+
+                        <a
+                            href="{% url 'groups' %}"
+                            class="flex items-center
+                            gap-3 p-3
+                            rounded-xl
+                            hover:bg-surface-container-low
+                            transition-colors"
+                        >
+
+                            <div
+                                class="w-9 h-9
+                                rounded-lg
+                                bg-primary/10
+                                text-primary
+                                flex items-center
+                                justify-center"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined
+                                    text-[20px]"
+                                >
+                                    group
+                                </span>
+
+                            </div>
+
+
+                            <div class="flex-1">
+
+                                <p
+                                    class="text-sm
+                                    font-semibold
+                                    text-on-surface"
+                                >
+                                    My Groups
+                                </p>
+
+                                <p
+                                    class="text-xs
+                                    text-on-surface-variant"
+                                >
+                                    View your savings groups
+                                </p>
+
+                            </div>
+
+
+                            <span
+                                class="material-symbols-outlined
+                                text-on-surface-variant
+                                text-[19px]"
+                            >
+                                chevron_right
+                            </span>
+
+                        </a>
+
+
+                        <!-- Wallet -->
+
+                        <a
+                            href="{% url 'wallet' %}"
+                            class="flex items-center
+                            gap-3 p-3
+                            rounded-xl
+                            hover:bg-surface-container-low
+                            transition-colors"
+                        >
+
+                            <div
+                                class="w-9 h-9
+                                rounded-lg
+                                bg-secondary/10
+                                text-secondary
+                                flex items-center
+                                justify-center"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined
+                                    text-[20px]"
+                                >
+                                    account_balance_wallet
+                                </span>
+
+                            </div>
+
+
+                            <div class="flex-1">
+
+                                <p
+                                    class="text-sm
+                                    font-semibold
+                                    text-on-surface"
+                                >
+                                    Wallet
+                                </p>
+
+                                <p
+                                    class="text-xs
+                                    text-on-surface-variant"
+                                >
+                                    Manage your balance
+                                </p>
+
+                            </div>
+
+
+                            <span
+                                class="material-symbols-outlined
+                                text-on-surface-variant
+                                text-[19px]"
+                            >
+                                chevron_right
+                            </span>
+
+                        </a>
+
+
+                        <!-- Dashboard -->
+
+                        <a
+                            href="{% url 'dashboard' %}"
+                            class="flex items-center
+                            gap-3 p-3
+                            rounded-xl
+                            hover:bg-surface-container-low
+                            transition-colors"
+                        >
+
+                            <div
+                                class="w-9 h-9
+                                rounded-lg
+                                bg-surface-container
+                                text-on-surface-variant
+                                flex items-center
+                                justify-center"
+                            >
+
+                                <span
+                                    class="material-symbols-outlined
+                                    text-[20px]"
+                                >
+                                    dashboard
+                                </span>
+
+                            </div>
+
+
+                            <div class="flex-1">
+
+                                <p
+                                    class="text-sm
+                                    font-semibold
+                                    text-on-surface"
+                                >
+                                    Dashboard
+                                </p>
+
+                                <p
+                                    class="text-xs
+                                    text-on-surface-variant"
+                                >
+                                    View your account overview
+                                </p>
+
+                            </div>
+
+
+                            <span
+                                class="material-symbols-outlined
+                                text-on-surface-variant
+                                text-[19px]"
+                            >
+                                chevron_right
+                            </span>
+
+                        </a>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- Create Group CTA -->
+
+                <section
+                    class="bg-primary
+                    rounded-3xl
+                    p-6
+                    text-on-primary
+                    relative overflow-hidden"
+                >
+
+                    <div
+                        class="absolute
+                        -right-10
+                        -top-10
+                        w-32 h-32
+                        rounded-full
+                        bg-white/10"
+                    >
+                    </div>
+
+
+                    <div class="relative">
+
+                        <span
+                            class="material-symbols-outlined
+                            text-3xl mb-4"
+                        >
+                            groups
+                        </span>
+
+
+                        <h3
+                            class="font-bold
+                            text-xl mb-2"
+                        >
+                            Grow together
+                        </h3>
+
+
+                        <p
+                            class="text-sm
+                            text-white/80
+                            leading-relaxed
+                            mb-5"
+                        >
+                            Create a savings group and
+                            invite friends, family, or
+                            your community.
+                        </p>
+
+
+                        <a
+                            href="{% url 'create_group' %}"
+                            class="inline-flex
+                            items-center
+                            justify-center
+                            gap-2
+                            bg-white
+                            text-primary
+                            px-4 py-2.5
+                            rounded-xl
+                            text-sm
+                            font-bold
+                            hover:bg-white/90
+                            transition-colors"
+                        >
+
+                            <span
+                                class="material-symbols-outlined
+                                text-[18px]"
+                            >
+                                add
+                            </span>
+
+                            Create Group
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+            </aside>
+
+
+        </div>
+
+    </div>
+
 </main>
-<!-- BottomNavBar (Mobile) -->
-<nav class="fixed bottom-0 w-full md:hidden rounded-t-xl backdrop-blur-xl bg-surface/80 dark:bg-surface-dim/80 border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 flex justify-around items-center px-lg pb-4 pt-2">
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined">home</span>
-<span class="font-label-xs text-label-xs">Home</span>
-</a>
-<a class="flex flex-col items-center justify-center text-primary font-bold active:bg-surface-container-high scale-90 transition-all duration-200" href="#">
-<span class="material-symbols-outlined fill">explore</span>
-<span class="font-label-xs text-label-xs">Groups</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined">wallet</span>
-<span class="font-label-xs text-label-xs">Wallet</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined">person</span>
-<span class="font-label-xs text-label-xs">Profile</span>
-</a>
+
+
+<!-- ========================================================= -->
+<!-- MOBILE BOTTOM NAVIGATION -->
+<!-- ========================================================= -->
+
+<nav
+    class="fixed bottom-0
+    left-0 w-full
+    z-50
+    flex justify-around
+    items-center
+    px-lg pb-4 pt-2
+    md:hidden
+    bg-surface/90
+    backdrop-blur-xl
+    border-t border-outline-variant
+    shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]"
+>
+
+
+    <!-- Home -->
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            home
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Home
+        </span>
+
+    </a>
+
+
+    <!-- Groups -->
+
+    <a
+        href="{% url 'groups' %}"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            explore
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Groups
+        </span>
+
+    </a>
+
+
+    <!-- Notifications -->
+
+    <a
+        href="{% url 'notifications' %}"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-primary
+        font-bold
+        bg-primary/10
+        p-2 rounded-xl
+        scale-95
+        transition-all"
+    >
+
+        <span
+            class="material-symbols-outlined"
+            style="font-variation-settings:'FILL' 1;"
+        >
+            notifications
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Alerts
+        </span>
+
+    </a>
+
+
+    <!-- Wallet -->
+
+    <a
+        href="{% url 'wallet' %}"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            wallet
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Wallet
+        </span>
+
+    </a>
+
+
+    <!-- Profile -->
+
+    <a
+        href="#"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            person
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Profile
+        </span>
+
+    </a>
 </nav>
 </body>
 </html>
