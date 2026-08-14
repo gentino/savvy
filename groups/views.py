@@ -117,6 +117,7 @@ def group_details(request, id):
 ).first()
 
     can_contribute = True
+    next_contribution=None
 
     if savings and savings.last_contributed_at:
 
