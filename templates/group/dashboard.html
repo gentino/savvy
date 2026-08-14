@@ -48,9 +48,8 @@
 </div>
 <div class="flex items-center gap-md">
 <div class="flex items-center gap-sm">
-<a href="{% url 'notifications' %}" class="p-sm text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</a>
+<!-- Notification -->
+    {% include '../includes/notification.html' %}
 <div class="w-10 h-10 rounded-full border-2 border-primary-container overflow-hidden bg-surface-container-high ml-sm cursor-pointer">
                         {% include '../includes/profilepic.html'%}
 

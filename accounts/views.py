@@ -57,3 +57,7 @@ def logout_view(request):
 @login_required
 def settings_view(request):
     return render(request,"accounts/settings.html")
+
+@login_required
+def profile(request):
+    return render(request,"profile.html",{"user": request.user})

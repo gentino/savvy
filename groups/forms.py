@@ -21,7 +21,7 @@ class GroupForm(forms.ModelForm):
             }),
 
             'group_image': forms.ClearableFileInput(attrs={
-                'class': 'hidden',
+                'class': 'w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500',
                 'id': 'image',
                 'accept': 'image/*',
             }),
@@ -58,3 +58,62 @@ class GroupForm(forms.ModelForm):
             }),
         }
         
+
+class GroupSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = Group
+
+        fields = [
+            "name",
+            "description",
+            "group_image",
+            "contribution_amount",
+            "contribution_frequency",
+            "duration",
+            "max_members",
+            "is_active",
+        ]
+
+        widgets = {
+            "name": forms.TextInput(attrs={
+                "class": "w-full rounded-xl border border-outline-variant bg-surface-container-low px-4 py-3 focus:ring-2 focus:ring-primary",
+                "placeholder": "Group name",
+            }),
+
+            "description": forms.Textarea(attrs={
+                "class": "w-full rounded-xl border border-outline-variant bg-surface-container-low px-4 py-3 focus:ring-2 focus:ring-primary",
+                "rows": 4,
+                "placeholder": "Describe your group",
+            }),
+
+            "group_image": forms.ClearableFileInput(attrs={
+                "class": "w-full rounded-xl border border-outline-variant bg-surface-container-low px-4 py-3",
+            }),
+
+            "contribution_amount": forms.NumberInput(attrs={
+                "class": "w-full rounded-xl border border-outline-variant bg-surface-container-low px-4 py-3",
+                "step": "0.01",
+                "min": "0",
+            }),
+
+            "contribution_frequency": forms.Select(attrs={
+                "class": "w-full rounded-xl border border-outline-variant bg-surface-container-low px-4 py-3",
+            }),
+
+            "duration": forms.NumberInput(attrs={
+                "class": "w-full rounded-xl border border-outline-variant bg-surface-container-low px-4 py-3",
+                "min": "1",
+            }),
+
+            "max_members": forms.NumberInput(attrs={
+                "class": "w-full rounded-xl border border-outline-variant bg-surface-container-low px-4 py-3",
+                "min": "1",
+            }),
+
+
+
+            "is_active": forms.CheckboxInput(attrs={
+                "class": "w-5 h-5 rounded text-primary focus:ring-primary",
+            }),
+        }

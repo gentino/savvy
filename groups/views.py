@@ -1,21 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404,get_list_or_404
 from .models import Group,GroupMember,GroupInviteLink,JoinRequest
 from django.contrib import messages
-from .forms import GroupForm
+from .forms import GroupForm, GroupSettingsForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from decimal import Decimal
 from django.db import transaction
 from wallet.models import GroupSavings
-from django.db.models import Sum, Q, Case, When, Value, BooleanField,Count,F,Value,ExpressionWrapper,IntegerField
+from django.db.models import Sum, Q, Case, When, OuterRef,Value, BooleanField,Count,F,Value, DecimalField, Subquery, ExpressionWrapper,IntegerField
 from wallet.models import Wallet, WalletTransaction
 from django.http import Http404
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from django.utils import timezone
+from notifications.models import Notification
 
-
+@login_required
 def groups(request):
     # groups = Group.objects.filter(creator=request.user)
     groups = Group.objects.filter(Q(creator=request.user) | Q(group_members__user=request.user,
@@ -36,11 +37,16 @@ def groups(request):
         output_field=IntegerField())
         
         )
+    notifications=Notification.objects.filter(user=request.user)
+    # Count unread notifications BEFORE marking them as read
+    
+    unread_count = notifications.filter(is_read=False).count()
     context = {
-         'groups':groups
+         'groups':groups,
+         'unread_count':unread_count
     }
     return render(request, "group/groups.html",context)
-
+@login_required
 def create(request):
     if request.method == "POST":
         form=GroupForm(request.POST,request.FILES)
@@ -66,7 +72,60 @@ def create(request):
     }
     return render(request, "group/create_group.html",context)
 
+@login_required
+def group_settings(request, id):
 
+    group = get_object_or_404(
+        Group,
+        id=id
+    )
+
+    # Only creator can edit group settings
+    if group.creator != request.user:
+        messages.error(
+            request,
+            "Only the group creator can edit group settings."
+        )
+        return redirect("group", id=group.id)
+
+    if request.method == "POST":
+
+        form = GroupSettingsForm(
+            request.POST,
+            request.FILES,
+            instance=group
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(
+                request,
+                "Group settings updated successfully."
+            )
+
+            return redirect(
+                "group_settings",
+                id=group.id
+            )
+
+    else:
+
+        form = GroupSettingsForm(
+            instance=group
+        )
+
+    return render(
+        request,
+        "group/manage/settings.html",
+        {
+            "group": group,
+            "form": form,
+        }
+    )
+    
+@login_required
 def group_details(request, id):
     group = get_object_or_404(Group,id=id)
     
@@ -143,6 +202,9 @@ def group_details(request, id):
 
         if now < next_contribution:
             can_contribute = False
+    notifications=Notification.objects.filter(user=request.user)
+        # Count unread notifications BEFORE marking them as read
+    unread_count = notifications.filter(is_read=False).count()
     context = {
         'group':group,
         "invite_link": invite_link,
@@ -153,19 +215,18 @@ def group_details(request, id):
         'is_creator':is_creator,
         'member_count':member,
         'can_contribute':can_contribute,
-        'next_contribution':next_contribution
+        'next_contribution':next_contribution,
+        'unread_count':unread_count
     }
     return render(request, "group/group.html",context)
 
+@login_required
 def delete(request,id):
     group =get_object_or_404(Group,id=id)
     group.delete()
     messages.success(request,'Group deleted successfully')
     return redirect('groups')
 
-
-def edit_group(request,id):
-    pass
 
 @login_required
 def group_invite(request,token):
@@ -267,31 +328,47 @@ def join_group(request, token):
     messages.success(request,"Your request to join has been sent.")
     return redirect("group_invite",token=token)
 
-
+@login_required
 def group_invites(request,id):
     invites = JoinRequest.objects.filter(group=id)
     pending=invites.filter(status=JoinRequest.PENDING).count()
     rejected=invites.filter(status=JoinRequest.REJECTED).count()
     approved=invites.filter(status=JoinRequest.APPROVED).count()
     group=Group.objects.get(id=id)
+    notifications=Notification.objects.filter(user=request.user)
+    # Count unread notifications BEFORE marking them as read
+    unread_count = notifications.filter(is_read=False).count()
     
     context ={
         'invites':invites,
         'pending':pending,
         'rejected':rejected,
         'approved':approved,
-        'group': group
+        'group': group,
+        'unread_count':unread_count
     }
     return render(request,'group/manage/invites.html',context)
 
-
+@login_required
 def group_members(request,id):
     group=get_object_or_404(Group,id=id)
-    # members=group.members.filter(role='member')
-    members = GroupMember.objects.filter(group=group,role='member',status=GroupMember.ACTIVE).select_related('user')
+    savings = GroupSavings.objects.filter(group=group,user=OuterRef("user")).values("total_contributed")[:1]
+    members = GroupMember.objects.filter(group=group,role='member',status=GroupMember.ACTIVE).select_related('user').annotate(
+            total_saved=Subquery(
+                savings,
+                output_field=DecimalField(
+                    max_digits=14,
+                    decimal_places=2
+                )
+            )
+    )
+    notifications=Notification.objects.filter(user=request.user)
+    # Count unread notifications BEFORE marking them as read    
+    unread_count = notifications.filter(is_read=False).count()
     context = {
         'group':group,
-        'members':members
+        'members':members,
+        'unread_count':unread_count
     }
     return render(request,'group/manage/members.html',context)
 

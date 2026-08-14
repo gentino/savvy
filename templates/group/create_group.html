@@ -11,7 +11,7 @@
 
 
 <nav class="flex-grow space-y-xs">
-<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-xl font-bold transition-transform translate-x-1" href="#">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl transition-all" href="{% url 'dashboard' %}">
 <span class="material-symbols-outlined">dashboard</span>
 <span class="font-label-sm">Dashboard</span>
 </a>
@@ -44,14 +44,13 @@
 {% include '../includes/logo.html' %}
 </div>
 
-<h2 class="font-headline-lg text-headline-lg-mobile md:text-title-md font-bold text-primary">Dashboard</h2>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-title-md font-bold text-primary">Create </h2>
 
 </div>
 <div class="flex items-center gap-md">
 <div class="flex items-center gap-sm">
-<a href="{% url 'notifications' %}" class="p-sm text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</a>
+<!-- Notification -->
+    {% include '../includes/notification.html' %}
 <div class="w-10 h-10 rounded-full border-2 border-primary-container overflow-hidden bg-surface-container-high ml-sm cursor-pointer">
                         {% include '../includes/profilepic.html'%}
 
@@ -92,12 +91,12 @@
 </div>
 
 <label for="image" class="flex flex-col gap-xs cursor-pointer"  > 
-<span for="image"  class="text-label-sm text-on-surface-variant">Group Icon</span>
-<div class="border-2 border-dashed border-outline-variant rounded-xl p-lg flex flex-col items-center justify-center text-on-surface-variant bg-surface-container-lowest hover:bg-surface-container transition-colors cursor-pointer group">
+<span for="image"  class="text-label-sm text-on-surface-variant">Group Icon(Image)</span>
+{% comment %} <div class="border-2 border-dashed border-outline-variant rounded-xl p-lg flex flex-col items-center justify-center text-on-surface-variant bg-surface-container-lowest hover:bg-surface-container transition-colors cursor-pointer group">
 <span class="material-symbols-outlined text-4xl mb-2 group-hover:text-primary transition-colors">upload_file</span>
 <p class="font-label-sm">Click to upload or drag &amp; drop</p>
 <p class="text-xs opacity-60">SVG, PNG, or JPG (max 2MB)</p>
-</div>
+</div> {% endcomment %}
 </label> 
 {{ form.group_image }}
 
@@ -157,47 +156,25 @@
 </main>
 <!-- BottomNavBar (Mobile Only) -->
 <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-lg pb-4 pt-2 bg-surface/80 backdrop-blur-xl border-t border-outline-variant shadow-lg md:hidden">
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant
+ active:bg-surface-container-high transition-all" href="{% url 'groups' %}">
 <span class="material-symbols-outlined">home</span>
 <span class="font-label-xs">Home</span>
 </a>
-<a class="flex flex-col items-center justify-center text-primary font-bold active:bg-surface-container-high transition-all" href="#">
+<a class="flex flex-col items-center justify-center text-primary font-bold 
+active:bg-surface-container-high transition-all" href="{% url 'groups' %}">
 <span class="material-symbols-outlined">explore</span>
 <span class="font-label-xs">Groups</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant
+ active:bg-surface-container-high transition-all" href="{%  url 'wallet' %}">
 <span class="material-symbols-outlined">wallet</span>
 <span class="font-label-xs">Wallet</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant
+ active:bg-surface-container-high transition-all" href="{% url 'profile' %}">
 <span class="material-symbols-outlined">person</span>
 <span class="font-label-xs">Profile</span>
 </a>
 </nav>
 {% endblock %}
-{% comment %} <script>
-        // Micro-interactions for the form fields
-        document.querySelectorAll('input, select, textarea').forEach(el => {
-            el.addEventListener('focus', () => {
-                el.parentElement.querySelector('label')?.classList.add('text-primary');
-            });
-            el.addEventListener('blur', () => {
-                el.parentElement.querySelector('label')?.classList.remove('text-primary');
-            });
-        });
-
-        // Simple button active state visual feedback
-        const createBtn = document.querySelector('button.bg-primary');
-        if(createBtn) {
-            createBtn.addEventListener('click', function() {
-                this.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> <span>Creating...</span>';
-                setTimeout(() => {
-                    this.innerHTML = '<span>Created Successfully!</span> <span class="material-symbols-outlined">check_circle</span>';
-                    this.classList.replace('bg-primary', 'bg-tertiary-container');
-                    this.classList.replace('text-on-primary', 'text-on-tertiary-container');
-                }, 1500);
-            });
-        }
-    </script>
-</body>
-</html> {% endcomment %}

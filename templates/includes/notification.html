@@ -1,0 +1,49 @@
+{% if unread_count > 0 %}
+
+    <!-- Notifications with unread count -->
+    <a 
+        href="{% url 'notifications' %}" 
+        class="relative w-10 h-10 
+               flex items-center justify-center 
+               text-primary 
+               bg-primary/10 
+               rounded-xl 
+               transition-all"
+    >
+        <span 
+            class="material-symbols-outlined"
+            style="font-variation-settings: 'FILL' 1;"
+        >
+            notifications
+        </span>
+
+        <span 
+            class="absolute -top-1 -right-1
+                   min-w-5 h-5 px-1
+                   rounded-full
+                   bg-error text-white
+                   text-xs font-bold
+                   flex items-center justify-center"
+        >
+            {{ unread_count }}
+        </span>
+    </a>
+
+{% else %}
+
+    <!-- No unread notifications -->
+    <a 
+        href="{% url 'notifications' %}" 
+        class="w-10 h-10 
+               flex items-center justify-center
+               text-primary 
+               bg-primary/10 
+               rounded-xl 
+               transition-all"
+    >
+        <span class="material-symbols-outlined">
+            notifications
+        </span>
+    </a>
+
+{% endif %}

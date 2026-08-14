@@ -1,0 +1,788 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html class="h-full bg-surface-bright" lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Savvy - Group Settings</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+
+        tailwind.config = {
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e5eeff",
+                        "surface-variant": "#d3e4fe",
+
+                        "primary": "#006b2c",
+                        "primary-container": "#00873a",
+
+                        "secondary-container": "#92f5a4",
+                        "on-secondary-container": "#00210a",
+
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#3e4a3d",
+
+                        "outline-variant": "#bdcaba",
+
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a"
+                    },
+
+                    borderRadius: {
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    }
+
+                }
+
+            }
+
+        }
+
+    </script>
+
+    <style>
+
+        body {
+            font-family: Inter, sans-serif;
+        }
+
+        .material-symbols-outlined {
+
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body
+    class="min-h-screen
+    bg-surface-bright
+    text-on-surface
+    antialiased"
+>
+
+
+<!-- SIDEBAR -->
+
+<aside
+    class="fixed left-0 top-0 h-screen w-72
+    hidden md:flex flex-col
+    bg-surface-container-low
+    border-r border-outline-variant
+    p-4
+    space-y-2
+    z-50"
+>
+
+    {% include '../../includes/logo.html' %}
+
+
+    <nav class="flex-1 space-y-1 pt-4">
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl"
+        >
+
+            <span class="material-symbols-outlined">
+                dashboard
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            href="{% url 'groups' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl"
+        >
+
+            <span class="material-symbols-outlined">
+                group
+            </span>
+
+            My Groups
+
+        </a>
+
+
+        <a
+            href="{% url 'wallet' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl"
+        >
+
+            <span class="material-symbols-outlined">
+                account_balance_wallet
+            </span>
+
+            Wallet
+
+        </a>
+
+
+        <a
+            href="{% url 'notifications' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl"
+        >
+
+            <span class="material-symbols-outlined">
+                notifications
+            </span>
+
+            Notifications
+
+        </a>
+
+    </nav>
+
+
+    <a
+        href="{% url 'create_group' %}"
+        class="w-full
+        bg-primary
+        text-white
+        py-3
+        rounded-xl
+        font-semibold
+        flex items-center
+        justify-center
+        gap-2"
+    >
+
+        <span class="material-symbols-outlined">
+            add
+        </span>
+
+        Create Group
+
+    </a>
+
+
+    <div class="pt-4 border-t border-outline-variant">
+
+        <form
+            method="POST"
+            action="{% url 'logout' %}"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="w-full
+                flex items-center gap-4
+                px-4 py-3
+                text-on-surface-variant
+                hover:bg-surface-variant/50
+                rounded-xl"
+            >
+
+                <span class="material-symbols-outlined">
+                    logout
+                </span>
+
+                Logout
+
+            </button>
+
+        </form>
+
+    </div>
+
+</aside>
+
+
+<!-- HEADER -->
+
+<header
+    class="fixed top-0 right-0 left-0 md:left-72
+    z-40
+    bg-surface-bright/90
+    backdrop-blur-xl
+    border-b border-outline-variant
+    flex justify-between
+    items-center
+    px-4 md:px-8
+    py-3"
+>
+
+    <h2 class="text-xl md:text-2xl font-bold text-primary">
+        Group Settings
+    </h2>
+
+
+    <div
+        class="h-10 w-10
+        rounded-full
+        border-2 border-primary/20
+        overflow-hidden
+        bg-surface-container"
+    >
+
+        {% include '../../includes/profilepic.html' %}
+
+    </div>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main
+    class="pt-24 pb-24
+    md:pb-12
+    pl-0 md:pl-72
+    min-h-screen"
+>
+
+
+    {% include '../../includes/messages.html' %}
+
+
+    <div
+        class="max-w-4xl
+        mx-auto
+        px-4 sm:px-6
+        lg:px-8
+        py-6 lg:py-8"
+    >
+
+
+        <!-- BREADCRUMB -->
+
+        <nav
+            class="flex items-center gap-1
+            text-sm
+            text-on-surface-variant
+            mb-6"
+        >
+
+            <a
+                href="{% url 'groups' %}"
+                class="hover:text-primary"
+            >
+                My Groups
+            </a>
+
+            <span class="material-symbols-outlined text-[17px]">
+                chevron_right
+            </span>
+
+            <a
+                href="{% url 'group' group.id %}"
+                class="hover:text-primary"
+            >
+                {{ group.name }}
+            </a>
+
+            <span class="material-symbols-outlined text-[17px]">
+                chevron_right
+            </span>
+
+            <span class="text-on-surface font-medium">
+                Settings
+            </span>
+
+        </nav>
+
+
+        <!-- TITLE -->
+
+        <div class="mb-8">
+
+            <div
+                class="flex items-center gap-3 mb-2"
+            >
+
+                <div
+                    class="w-12 h-12
+                    rounded-2xl
+                    bg-primary
+                    text-white
+                    flex items-center
+                    justify-center"
+                >
+
+                    <span class="material-symbols-outlined text-2xl">
+                        settings
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h1
+                        class="text-2xl
+                        md:text-3xl
+                        font-bold"
+                    >
+                        Group Settings
+                    </h1>
+
+                    <p
+                        class="text-sm
+                        text-on-surface-variant
+                        mt-1"
+                    >
+                        Update the details and contribution rules for
+                        {{ group.name }}.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FORM -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="bg-white
+            rounded-3xl
+            border border-outline-variant
+            p-6 md:p-8
+            space-y-7"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- BASIC INFORMATION -->
+
+            <div>
+
+                <h2
+                    class="text-lg
+                    font-bold
+                    mb-4"
+                >
+                    Basic Information
+                </h2>
+
+
+                <div class="space-y-5">
+
+
+                    <!-- NAME -->
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Group Name
+                        </label>
+
+                        {{ form.name }}
+
+                        {% if form.name.errors %}
+
+                            <p class="text-error text-sm mt-1">
+                                {{ form.name.errors.0 }}
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Description
+                        </label>
+
+                        {{ form.description }}
+
+                        {% if form.description.errors %}
+
+                            <p class="text-error text-sm mt-1">
+                                {{ form.description.errors.0 }}
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- IMAGE -->
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Group Image
+                        </label>
+
+                        {% if group.group_image %}
+
+                            <div class="mb-3">
+
+                                <img
+                                    src="{{ group.group_image.url }}"
+                                    class="w-24 h-24
+                                    rounded-2xl
+                                    object-cover"
+                                >
+
+                            </div>
+
+                        {% endif %}
+
+                        {{ form.group_image }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTRIBUTION SETTINGS -->
+
+            <div
+                class="pt-7
+                border-t
+                border-outline-variant"
+            >
+
+                <h2
+                    class="text-lg
+                    font-bold
+                    mb-4"
+                >
+                    Contribution Settings
+                </h2>
+
+
+                <div
+                    class="grid
+                    grid-cols-1
+                    md:grid-cols-2
+                    gap-5"
+                >
+
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Contribution Amount
+                        </label>
+
+                        {{ form.contribution_amount }}
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Contribution Frequency
+                        </label>
+
+                        {{ form.contribution_frequency }}
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Duration
+                        </label>
+
+                        {{ form.duration }}
+
+                        <p class="text-xs text-on-surface-variant mt-1">
+                            Number of contribution periods.
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <label class="block text-sm font-semibold mb-2">
+                            Maximum Members
+                        </label>
+
+                        {{ form.max_members }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PENALTY -->
+
+            <div
+                class="pt-7
+                border-t
+                border-outline-variant"
+            >
+
+                <h2
+                    class="text-lg
+                    font-bold
+                    mb-4"
+                >
+                    Penalty Rules
+                </h2>
+
+                {{ form.penalty_rules }}
+
+            </div>
+
+
+            <!-- GROUP STATUS -->
+
+            <div
+                class="pt-7
+                border-t
+                border-outline-variant"
+            >
+
+                <div
+                    class="flex items-center
+                    justify-between
+                    gap-4
+                    p-4
+                    bg-surface-container-low
+                    rounded-2xl"
+                >
+
+                    <div>
+
+                        <p class="font-semibold">
+                            Group Active
+                        </p>
+
+                        <p
+                            class="text-sm
+                            text-on-surface-variant
+                            mt-1"
+                        >
+                            Disable the group if you no longer want members
+                            to make contributions.
+                        </p>
+
+                    </div>
+
+                    {{ form.is_active }}
+
+                </div>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div
+                class="pt-6
+                border-t
+                border-outline-variant
+                flex flex-col
+                sm:flex-row
+                justify-end
+                gap-3"
+            >
+
+                <a
+                    href="{% url 'group' group.id %}"
+                    class="px-6 py-3
+                    rounded-xl
+                    border border-outline-variant
+                    text-on-surface-variant
+                    font-semibold
+                    text-center
+                    hover:bg-surface-container-low"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="px-6 py-3
+                    rounded-xl
+                    bg-primary
+                    text-white
+                    font-semibold
+                    flex items-center
+                    justify-center
+                    gap-2"
+                >
+
+                    <span class="material-symbols-outlined">
+                        save
+                    </span>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<!-- MOBILE NAV -->
+
+<nav
+    class="fixed bottom-0
+    left-0 w-full
+    z-50
+    flex justify-around
+    items-center
+    px-4 pb-4 pt-2
+    md:hidden
+    bg-surface-bright/95
+    backdrop-blur-xl
+    border-t border-outline-variant"
+>
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="flex flex-col
+        items-center
+        text-on-surface-variant
+        p-2"
+    >
+
+        <span class="material-symbols-outlined">
+            home
+        </span>
+
+        <span class="text-xs mt-1">
+            Home
+        </span>
+
+    </a>
+
+
+    <a
+        href="{% url 'groups' %}"
+        class="flex flex-col
+        items-center
+        text-on-surface-variant
+        p-2"
+    >
+
+        <span class="material-symbols-outlined">
+            group
+        </span>
+
+        <span class="text-xs mt-1">
+            Groups
+        </span>
+
+    </a>
+
+
+    <a
+        href="{% url 'wallet' %}"
+        class="flex flex-col
+        items-center
+        text-on-surface-variant
+        p-2"
+    >
+
+        <span class="material-symbols-outlined">
+            wallet
+        </span>
+
+        <span class="text-xs mt-1">
+            Wallet
+        </span>
+
+    </a>
+
+
+    <a
+        href="{% url 'profile' %}"
+        class="flex flex-col
+        items-center
+        text-primary
+        p-2"
+    >
+
+        <span class="material-symbols-outlined">
+            person
+        </span>
+
+        <span class="text-xs mt-1">
+            Profile
+        </span>
+
+    </a>
+
+</nav>
+
+</body>
+</html>

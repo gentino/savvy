@@ -1,311 +1,699 @@
+{% load humanize %}
 <!DOCTYPE html>
 
-<html class="h-full bg-surface-bright dark:bg-surface-dim" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Group Details - Home Deposit Circle - Osusu</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
+<html class="h-full bg-surface-bright dark:bg-surface-dim" lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta
+        content="width=device-width, initial-scale=1.0"
+        name="viewport"
+    />
+    <title>Savvy - Notifications</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    />
+
+
+    <!-- Tailwind -->
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+
+    <script id="tailwind-config">
+
         tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "surface-container-high": "#dce9ff",
-                      "primary-container": "#00873a",
-                      "on-error-container": "#93000a",
-                      "surface-dim": "#cbdbf5",
-                      "error": "#ba1a1a",
-                      "secondary": "#006d30",
-                      "on-secondary-fixed-variant": "#005323",
-                      "secondary-container": "#92f5a4",
-                      "on-tertiary-container": "#f7fff3",
-                      "surface-variant": "#d3e4fe",
-                      "surface-container-highest": "#d3e4fe",
-                      "inverse-surface": "#213145",
-                      "on-surface": "#0b1c30",
-                      "secondary-fixed": "#95f8a7",
-                      "on-tertiary": "#ffffff",
-                      "outline": "#6e7b6c",
-                      "on-tertiary-fixed-variant": "#005321",
-                      "on-background": "#0b1c30",
-                      "surface-container-lowest": "#ffffff",
-                      "tertiary-fixed-dim": "#4ae176",
-                      "background": "#f8f9ff",
-                      "outline-variant": "#bdcaba",
-                      "secondary-fixed-dim": "#79db8d",
-                      "on-primary-container": "#f7fff2",
-                      "surface-tint": "#006e2d",
-                      "on-primary": "#ffffff",
-                      "primary-fixed": "#7ffc97",
-                      "tertiary": "#006b2d",
-                      "on-surface-variant": "#3e4a3d",
-                      "surface-container": "#e5eeff",
-                      "surface-bright": "#f8f9ff",
-                      "on-tertiary-fixed": "#002109",
-                      "inverse-on-surface": "#eaf1ff",
-                      "error-container": "#ffdad6",
-                      "surface-container-low": "#eff4ff",
-                      "on-error": "#ffffff",
-                      "primary": "#006b2c",
-                      "tertiary-container": "#00873b",
-                      "on-secondary-fixed": "#00210a",
-                      "primary-fixed-dim": "#62df7d",
-                      "inverse-primary": "#62df7d",
-                      "on-secondary": "#ffffff",
-                      "on-primary-fixed-variant": "#005320",
-                      "tertiary-fixed": "#6bff8f",
-                      "on-secondary-container": "#007233",
-                      "surface": "#f8f9ff",
-                      "on-primary-fixed": "#002109"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "xl": "32px",
-                      "lg": "24px",
-                      "xs": "4px",
-                      "container-max": "1280px",
-                      "base": "8px",
-                      "sm": "12px",
-                      "md": "16px",
-                      "xxl": "48px"
-              },
-              "fontFamily": {
-                      "title-md": [
-                              "Inter"
-                      ],
-                      "body-md": [
-                              "Inter"
-                      ],
-                      "body-lg": [
-                              "Inter"
-                      ],
-                      "label-xs": [
-                              "Inter"
-                      ],
-                      "display-lg": [
-                              "Inter"
-                      ],
-                      "label-sm": [
-                              "Inter"
-                      ],
-                      "headline-lg-mobile": [
-                              "Inter"
-                      ],
-                      "headline-lg": [
-                              "Inter"
-                      ]
-              },
-              "fontSize": {
-                      "title-md": [
-                              "20px",
-                              {
-                                      "lineHeight": "28px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "body-md": [
-                              "16px",
-                              {
-                                      "lineHeight": "24px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "body-lg": [
-                              "18px",
-                              {
-                                      "lineHeight": "28px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "label-xs": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "letterSpacing": "0.03em",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "display-lg": [
-                              "48px",
-                              {
-                                      "lineHeight": "56px",
-                                      "letterSpacing": "-0.02em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "label-sm": [
-                              "14px",
-                              {
-                                      "lineHeight": "20px",
-                                      "letterSpacing": "0.01em",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "headline-lg-mobile": [
-                              "24px",
-                              {
-                                      "lineHeight": "32px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "headline-lg": [
-                              "32px",
-                              {
-                                      "lineHeight": "40px",
-                                      "letterSpacing": "-0.01em",
-                                      "fontWeight": "600"
-                              }
-                      ]
-              }
-      },
-          },
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        "surface-container-high": "#dce9ff",
+                        "primary-container": "#00873a",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#cbdbf5",
+                        "error": "#ba1a1a",
+                        "secondary": "#006d30",
+                        "on-secondary-fixed-variant": "#005323",
+                        "secondary-container": "#92f5a4",
+                        "on-tertiary-container": "#f7fff3",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-highest": "#d3e4fe",
+                        "inverse-surface": "#213145",
+                        "on-surface": "#0b1c30",
+                        "secondary-fixed": "#95f8a7",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#6e7b6c",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "on-background": "#0b1c30",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#4ae176",
+                        "background": "#f8f9ff",
+                        "outline-variant": "#bdcaba",
+                        "secondary-fixed-dim": "#79db8d",
+                        "on-primary-container": "#f7fff2",
+                        "surface-tint": "#006e2d",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#7ffc97",
+                        "tertiary": "#006b2d",
+                        "on-surface-variant": "#3e4a3d",
+                        "surface-container": "#e5eeff",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed": "#002109",
+                        "inverse-on-surface": "#eaf1ff",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#eff4ff",
+                        "on-error": "#ffffff",
+                        "primary": "#006b2c",
+                        "tertiary-container": "#00873b",
+                        "on-secondary-fixed": "#00210a",
+                        "primary-fixed-dim": "#62df7d",
+                        "inverse-primary": "#62df7d",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#005320",
+                        "tertiary-fixed": "#6bff8f",
+                        "on-secondary-container": "#007233",
+                        "on-primary-fixed": "#002109"
+
+                    },
+
+
+                    borderRadius: {
+
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+
+                    },
+
+
+                    spacing: {
+
+                        "xl": "32px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "container-max": "1400px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "md": "16px",
+                        "xxl": "48px"
+
+                    },
+
+
+                    fontFamily: {
+
+                        "title-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-xs": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"]
+
+                    },
+
+
+                    fontSize: {
+
+                        "title-md": [
+                            "20px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "body-md": [
+                            "16px",
+                            {
+                                lineHeight: "24px",
+                                fontWeight: "400"
+                            }
+                        ],
+
+                        "body-lg": [
+                            "18px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "400"
+                            }
+                        ],
+
+                        "label-xs": [
+                            "12px",
+                            {
+                                lineHeight: "16px",
+                                letterSpacing: "0.03em",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "label-sm": [
+                            "14px",
+                            {
+                                lineHeight: "20px",
+                                letterSpacing: "0.01em",
+                                fontWeight: "500"
+                            }
+                        ],
+
+                        "headline-lg-mobile": [
+                            "24px",
+                            {
+                                lineHeight: "32px",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "headline-lg": [
+                            "32px",
+                            {
+                                lineHeight: "40px",
+                                letterSpacing: "-0.01em",
+                                fontWeight: "600"
+                            }
+                        ]
+
+                    }
+
+                }
+
+            }
+
         }
+
     </script>
+
+
+    <style>
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: Inter, sans-serif;
+        }
+
+
+        .notification-card {
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
+
+        }
+
+
+        .notification-card:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px -10px
+                rgba(11, 28, 48, 0.15);
+
+        }
+
+
+        .material-symbols-outlined {
+
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+
+        }
+
+
+        .material-symbols-outlined.fill {
+
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+
+        }
+
+    </style>
+
 </head>
-<body class="h-full flex text-on-surface">
+
+
+<body
+    class="min-h-screen bg-surface-bright
+    text-on-surface antialiased"
+>
+
+
+<!-- SIDEBAR -->
+<aside
+    class="fixed left-0 top-0 h-screen w-72
+    hidden md:flex flex-col
+    bg-surface-container-low
+    dark:bg-surface-container-lowest
+    border-r border-outline-variant
+    dark:border-outline
+    p-md space-y-base
+    z-50"
+>
+
+
+    {% include '../../includes/logo.html'%}
+
+
+    <!-- Navigation -->
+
+    <nav class="flex-1 space-y-xs pt-2">
+
+
+        <!-- Dashboard -->
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="flex items-center gap-md
+            px-md py-sm
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            font-label-sm text-label-sm
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                dashboard
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <!-- My Groups -->
+
+        <a
+            href="{% url 'groups' %}"
+            class="flex items-center gap-md
+            px-md py-sm
+            bg-secondary-container
+            text-on-secondary-container
+            rounded-xl
+            font-label-sm text-label-sm
+            font-bold
+            translate-x-1
+            transition-transform"
+        >
+
+            <span class="material-symbols-outlined">
+                group
+            </span>
+
+            My Groups
+
+        </a>
+
+
+        <!-- Wallet -->
+
+        <a
+            href="{% url 'wallet' %}"
+            class="flex items-center gap-md
+            px-md py-sm
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            font-label-sm text-label-sm
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                account_balance_wallet
+            </span>
+
+            Wallet
+
+        </a>
+
+
+        <!-- Notifications -->
+
+        <a
+            href="{% url 'notifications' %}"
+
+             class="flex items-center gap-md
+            px-md py-sm
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            font-label-sm text-label-sm
+            transition-all"
+
+            
+        >
+
+            <span
+                class="material-symbols-outlined"
+                style="font-variation-settings:'FILL' 1;"
+            >
+                notifications
+            </span>
+
+            Notifications
+
+        </a>
+
+    </nav>
+
+
+    <!-- Create Group -->
+
+    <a
+        href="{% url 'create_group' %}"
+        class="block w-full
+        bg-primary text-on-primary
+        font-label-sm text-label-sm
+        py-md rounded-xl
+        font-bold shadow-sm
+        hover:opacity-90
+        transition-opacity
+        flex items-center
+        justify-center gap-sm
+        mt-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            add
+        </span>
+
+        Create Group
+
+    </a>
+
+
+    <!-- Logout -->
+
+    <div
+        class="pt-lg
+        border-t border-outline-variant
+        space-y-xs"
+    >
+
+        <form
+            method="POST"
+            action="{% url 'logout' %}"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="w-full
+                flex items-center gap-md
+                px-md py-sm
+                text-on-surface-variant
+                hover:bg-surface-variant/50
+                rounded-xl
+                font-label-sm text-label-sm
+                transition-all"
+            >
+
+                <span class="material-symbols-outlined">
+                    logout
+                </span>
+
+                Logout
+
+            </button>
+
+        </form>
+
+    </div>
+
+</aside>
+
+
+
+<!-- TOP NAVIGATION -->
+
+
+<header
+    class="fixed top-0 right-0 left-0 md:left-72
+    z-40
+    bg-surface/80
+    backdrop-blur-xl
+    border-b border-outline-variant
+    flex justify-between
+    items-center
+    px-4 md:px-lg
+    py-sm
+    shadow-sm"
+>
+
+
+    <div
+        class="flex items-center
+        gap-md flex-1"
+    >
+
+
+        <!-- Mobile Logo -->
+
+        <div
+            class="md:hidden
+            w-10 h-10
+            rounded-lg
+            flex items-center
+            justify-center"
+        >
+
+            {% include '../../includes/logo.html'%}
+
+        </div>
+
+
+        <!-- Page Title -->
+
+        <div class="hidden sm:block">
+
         
-<!-- SideNavBar (Desktop) -->
-<aside class="fixed left-0 top-0 h-screen w-72 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline z-30">
-<div class="p-md space-y-base flex flex-col h-full">
-<div class="mb-lg flex items-center gap-sm px-4 pt-4">
-<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold font-title-md">
-                    O
-                </div>
-<div>
-<h1 class="font-title-md text-title-md text-primary">Savvy</h1>
-<p class="font-label-sm text-label-sm text-on-surface-variant">Community Finance</p>
-</div>
-</div>
-<nav class="flex-1 space-y-xs">
-<a class="flex items-center gap-sm px-4 py-3 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl hover:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                    Dashboard
-                </a>
-<a class="flex items-center gap-sm px-4 py-3 font-label-sm text-label-sm bg-secondary-container text-on-secondary-container rounded-xl font-bold translate-x-1 transition-transform" href="#">
-<span class="material-symbols-outlined" data-icon="group" data-weight="fill">group</span>
+
+            <h2
+                class="text-xl md:text-2xl
+                font-bold
+                text-primary"
+            >
+                Members
+
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <!-- Header Actions -->
+
+    <div
+        class="flex items-center
+        gap-md"
+    >
+
+
+       <!-- Notification -->
+    {% include '../../includes/notification.html' %}
+
+
+        <!-- Profile -->
+
+        <div
+            class="h-10 w-10
+            rounded-full
+            border-2 border-primary/20
+            overflow-hidden
+            bg-surface-container"
+        >
+
+            {% include '../../includes/profilepic.html'%}
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- MAIN CONTENT -->
+
+
+<main
+    class="pt-24 pb-24
+    md:pb-12
+    pl-0 md:pl-72
+    min-h-screen"
+>
+
+
+    {% include '../../includes/messages.html' %}
+
+
+    <div
+        class="max-w-[1400px]
+        mx-auto
+        px-4 sm:px-6
+        lg:px-8
+        py-6 lg:py-8"
+    >
+        <!-- PAGE HEADER -->
+
+        <section
+            class="mb-7"
+        >
+
+            <!-- Breadcrumb -->
+
+            <nav
+                aria-label="Breadcrumb"
+                class="flex items-center
+                gap-1
+                text-label-sm
+                text-on-surface-variant
+                mb-4"
+            >
+
+                <a
+                    href="{% url 'groups' %}"
+                    class="hover:text-primary
+                    transition-colors"
+                >
                     My Groups
                 </a>
-<a class="flex items-center gap-sm px-4 py-3 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl hover:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="payments">payments</span>
-                    Contributions
-                </a>
-<a class="flex items-center gap-sm px-4 py-3 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl hover:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
-                    Wallet
-                </a>
-<a class="flex items-center gap-sm px-4 py-3 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl hover:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-                    Reports
-                </a>
-</nav>
-<div class="mt-auto pt-lg border-t border-outline-variant space-y-xs">
-<a class="flex items-center gap-sm px-4 py-3 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl hover:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-                    Settings
-                </a>
-<a class="flex items-center gap-sm px-4 py-3 font-label-sm text-label-sm text-on-surface-variant hover:bg-surface-variant/50 rounded-xl hover:bg-surface-container-high transition-all" href="#">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
-                    Logout
-                </a>
-</div>
-<button class="w-full mt-4 py-3 bg-primary text-on-primary rounded-full font-label-sm text-label-sm font-semibold shadow-sm hover:opacity-90 transition-opacity">
-                Create Group
-            </button>
-</div>
-</aside>
-<!-- Main Content Wrapper -->
-<div class="flex-1 flex flex-col md:ml-72 min-h-screen">
-<!-- TopNavBar -->
-<header class="docked full-width top-0 sticky backdrop-blur-xl bg-surface/70 border-b border-outline-variant dark:border-outline shadow-sm z-40">
-<div class="flex justify-between items-center w-full px-4 md:px-lg py-sm z-40">
-<div class="flex items-center gap-md">
-<!-- Mobile Menu Button -->
-<button class="md:hidden p-2 text-on-surface-variant">
-<span class="material-symbols-outlined">menu</span>
-</button>
-<span class="font-display-lg text-title-md font-bold text-primary dark:text-primary-fixed md:hidden">Savvy</span>
-</div>
-<div class="flex items-center gap-4">
-<button class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-
-<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant">
-{% if user.profile_photo %}
-        <img class="w-full h-full object-cover"  src="{{user.profile_photo.url}}" alt="{{ user.get_full_name }}"/>
-    {% else %}
-        <img class="w-full h-full object-cover"  src=""/>
-    {% endif %}
-</div>
-</div>
-</div>
-</header>
-<!-- Main Content Area -->
-<main class="flex-1 p-4 md:p-lg overflow-y-auto pb-24 md:pb-lg">
-        {% include '../../includes/messages.html' %}
-<div class="max-w-container-max mx-auto space-y-xl">
-<!-- Breadcrumbs & Header -->
-<div>
-<nav aria-label="Breadcrumb" class="flex text-on-surface-variant font-label-sm text-label-sm mb-4">
-<ol class="inline-flex items-center space-x-1 md:space-x-3">
-<li class="inline-flex items-center hover:text-primary transition-colors">
-<a class="inline-flex items-center gap-1" href="{% url 'groups' %}">
-                                    My Groups
-                                </a>
-</li>
-<li>
-<div class="flex items-center">
-<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
-<span aria-current="page" class="text-on-surface">{{group.name}}</span>
-</div>
-</li>
-</ol>
-</nav>
-<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-<div>
-<div class="flex items-center gap-3 mb-2">
-<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">{{group.name}}</h1>
-<span class="px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-xs text-label-xs flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> {{group.is_active}}
-                                </span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant">Created on {{group.created_at}}• {{group.members.count}} Members</p>
-</div>
-<div class="flex gap-3 w-full md:w-auto">
 
 
-</div>
-</div>
-</div>
-<!-- Tabs -->
-<div class="border-b border-outline-variant">
+                <span
+                    class="material-symbols-outlined
+                    text-[16px]"
+                >
+                    chevron_right
+                </span>
+
+
+                <span
+                    class="text-on-surface
+                    font-medium"
+                >
+                    Members
+                </span>
+
+            </nav>
+
+
+            <!-- Heading -->
+
+            <div
+                class="flex flex-col
+                lg:flex-row
+                lg:items-end
+                lg:justify-between
+                gap-5"
+            >
+
+                <div>
+
+                    <div
+                        class="flex items-center
+                        gap-3 mb-2"
+                    >
+
+                        <div
+                            class="w-12 h-12
+                            rounded-2xl
+                            bg-primary
+                            text-on-primary
+                            flex items-center
+                            justify-center"
+                        >
+                            <span
+                                class="material-symbols-outlined
+                                text-2xl"
+                            >
+                                people
+                            </span>
+                        </div>
+                        <div>
+                            <h1
+                                class="text-2xl
+                                md:text-3xl
+                                lg:text-4xl
+                                font-bold
+                                text-on-surface"
+                            >
+                                Members
+                            </h1>
+
+                            <p
+                                class="text-sm
+                                md:text-base
+                                text-on-surface-variant
+                                mt-1"
+                            >
+                                Invitations from users to join your group {{group.name}}                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Tabs -->
+<div class="border-b border-outline-variant mb-10">
 <nav aria-label="Tabs" class="-mb-px flex space-x-6 md:space-x-8 overflow-x-auto">
-<a  class=" border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-medium whitespace-nowrap transition-colors" href="{% url 'group' group.id %}">Overview</a>
-<a aria-current="page"  class="border-primary text-primary border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-bold whitespace-nowrap " href="#">Members</a>
-<a class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-medium whitespace-nowrap transition-colors" href="{% url 'invites' group.id  %}">Invites</a>
-<a class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-medium whitespace-nowrap transition-colors" href="#">Contributions</a>
-<a class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-medium whitespace-nowrap transition-colors" href="#">Settings</a>
+<a  class=" border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-medium whitespace-nowrap transition-colors" href="{% url 'group' group.id %}">Group</a>  
+<a class="border-primary text-primary border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-bold whitespace-nowrap" href="#">Members</a>
+<a aria-current="page"  class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-medium whitespace-nowrap transition-colors" href="{% url 'invites' group.id %}">Invites</a>
+<a class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant border-b-2 py-4 px-1 text-center font-label-sm text-label-sm font-medium whitespace-nowrap transition-colors" href="{% url  'group_settings' group.id %}">Settings</a>
 </nav>
 </div>
-<!-- Main Grid Content (Bento Style) -->
-<div class="grid grid-cols-1 lg:grid-cols-1 gap-lg">
-<!-- Left Column: Contribution Progress & Timeline -->
-<div class="lg:col-span-2 space-y-lg">
-<!-- Contribution Progress (Glassmorphism inspired card) -->
 
 
-<div class="bg-surface rounded-2xl border border-outline-variant shadow-sm p-4 md:p-lg">
-<h2 class="font-title-md text-title-md text-on-surface mb-4">Payouts</h2>
-<div class="space-y-4">
+        <!-- NOTIFICATION AREA -->
+      
+
+        <div
+            class="grid grid-cols-1
+            xl:grid-cols-1
+            gap-6 lg:gap-7"
+        >
+
+            <!-- NOTIFICATIONS LIST -->
+
+
+
+<section class="xl:col-span-2 space-y-4">
 
 {% for member in members %}
 
@@ -334,7 +722,7 @@
     <!-- Contribution -->
     <div class="text-right">
         <p class="font-label-sm text-label-sm font-bold text-primary">
-            ₦2,400
+            ₦{{member.total_saved|default:0|floatformat:2}}
         </p>
     </div>
 
@@ -383,25 +771,219 @@
 
 {% empty %}
 
+                   
 
-<div class="text-center py-8">
-    <span class="material-symbols-outlined text-4xl text-on-surface-variant">
-        group_off
-    </span>
+                    <!-- Empty State -->
+                    <tr>
 
-    <p class="mt-2 text-on-surface-variant">
-        No members found.
-    </p>
-</div>
-{% endfor %}
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+                        <td colspan="5" class="p-0">
+
+                            <div class="bg-surface rounded-3xl border border-outline-variant p-10 md:p-16 text-center">
+
+                                <div
+                                    class="w-20 h-20
+                                    mx-auto mb-6
+                                    rounded-full
+                                    bg-primary/10
+                                    text-primary
+                                    flex items-center
+                                    justify-center"
+                                >
+
+                                    <span class="material-symbols-outlined text-4xl">
+                                        group_off
+                                    </span>
+
+                                </div>
+
+
+                                <h2
+                                    class="text-xl
+                                    md:text-2xl
+                                    font-bold
+                                    text-on-surface
+                                    mb-2"
+                                >
+                                    No members found.
+                                </h2>
+
+
+                                <p
+                                    class="text-sm
+                                    md:text-base
+                                    text-on-surface-variant
+                                    max-w-md
+                                    mx-auto"
+                                >
+                                   <button
+                    onclick="openInviteModal()"
+                    class="w-full sm:w-auto
+                    px-5 py-3
+                    bg-primary text-on-primary
+                    rounded-xl
+                    font-semibold text-sm
+                    shadow-sm
+                    hover:opacity-90
+                    transition-opacity
+                    flex items-center
+                    justify-center gap-2"
+                >
+
+                    <span class="material-symbols-outlined text-[19px]">
+                        person_add
+                    </span>
+
+                    Invite Members
+
+                </button>
+
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+               
+
+           
+        </div>
+
+    </div>
+
 </main>
-</div>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+
+
+<nav
+    class="fixed bottom-0
+    left-0 w-full
+    z-50
+    flex justify-around
+    items-center
+    px-lg pb-4 pt-2
+    md:hidden
+    bg-surface/90
+    backdrop-blur-xl
+    border-t border-outline-variant
+    shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]"
+>
+
+
+    <!-- Home -->
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            home
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Home
+        </span>
+
+    </a>
+
+
+    <!-- Groups -->
+
+    <a
+        href="{% url 'groups' %}"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            explore
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Groups
+        </span>
+
+    </a>
+
+
+   
+    <!-- Wallet -->
+
+    <a
+        href="{% url 'wallet' %}"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            wallet
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Wallet
+        </span>
+
+    </a>
+
+
+    <!-- Profile -->
+
+    <a
+        href="#"
+        class="flex flex-col
+        items-center
+        justify-center
+        text-on-surface-variant
+        p-2 rounded-lg"
+    >
+
+        <span class="material-symbols-outlined">
+            person
+        </span>
+
+        <span
+            class="font-label-xs
+            text-label-xs mt-1"
+        >
+            Profile
+        </span>
+
+    </a>
+</nav>
 
 {% include 'includes/invite_member.html' %}
 </body>

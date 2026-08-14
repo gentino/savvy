@@ -1,0 +1,818 @@
+{% load humanize %}
+
+<!DOCTYPE html>
+<html class="h-full bg-surface-bright" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Savvy - Profile</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+
+            theme: {
+                extend: {
+
+                    colors: {
+                        "surface-container-low": "#eff4ff",
+                        "surface-container": "#e5eeff",
+                        "surface-bright": "#f8f9ff",
+                        "surface": "#f8f9ff",
+                        "surface-variant": "#d3e4fe",
+
+                        "primary": "#006b2c",
+                        "primary-container": "#00873a",
+                        "on-primary": "#ffffff",
+
+                        "secondary-container": "#92f5a4",
+                        "on-secondary-container": "#00210a",
+
+                        "on-surface": "#0b1c30",
+                        "on-surface-variant": "#3e4a3d",
+
+                        "outline": "#6e7b6c",
+                        "outline-variant": "#bdcaba",
+
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a"
+                    },
+
+                    borderRadius: {
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+
+                    fontFamily: {
+                        "title-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-xs": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+    </style>
+
+</head>
+
+
+<body class="min-h-screen bg-surface-bright text-on-surface antialiased">
+
+
+<!-- SIDEBAR -->
+
+<aside
+    class="fixed left-0 top-0 h-screen w-72
+    hidden md:flex flex-col
+    bg-surface-container-low
+    border-r border-outline-variant
+    p-4
+    space-y-2
+    z-50"
+>
+
+    {% include 'includes/logo.html' %}
+
+
+    <!-- Navigation -->
+
+    <nav class="flex-1 space-y-1 pt-4">
+
+        <!-- Dashboard -->
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                dashboard
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <!-- Groups -->
+
+        <a
+            href="{% url 'groups' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                group
+            </span>
+
+            My Groups
+
+        </a>
+
+
+        <!-- Wallet -->
+
+        <a
+            href="{% url 'wallet' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                account_balance_wallet
+            </span>
+
+            Wallet
+
+        </a>
+
+
+        <!-- Notifications -->
+
+        <a
+            href="{% url 'notifications' %}"
+            class="flex items-center gap-4
+            px-4 py-3
+            text-on-surface-variant
+            hover:bg-surface-variant/50
+            rounded-xl
+            transition-all"
+        >
+
+            <span class="material-symbols-outlined">
+                notifications
+            </span>
+
+            Notifications
+
+        </a>
+
+    </nav>
+
+
+    <!-- Create Group -->
+
+    <a
+        href="{% url 'create_group' %}"
+        class="w-full
+        bg-primary
+        text-on-primary
+        py-3
+        rounded-xl
+        font-semibold
+        flex items-center
+        justify-center
+        gap-2"
+    >
+
+        <span class="material-symbols-outlined">
+            add
+        </span>
+
+        Create Group
+
+    </a>
+
+
+    <!-- Logout -->
+
+    <div class="pt-4 border-t border-outline-variant">
+
+        <form
+            method="POST"
+            action="{% url 'logout' %}"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="w-full
+                flex items-center gap-4
+                px-4 py-3
+                text-on-surface-variant
+                hover:bg-surface-variant/50
+                rounded-xl"
+            >
+
+                <span class="material-symbols-outlined">
+                    logout
+                </span>
+
+                Logout
+
+            </button>
+
+        </form>
+
+    </div>
+
+</aside>
+
+
+<!-- TOP BAR -->
+
+<header
+    class="fixed top-0 right-0 left-0 md:left-72
+    z-40
+    bg-surface-bright/90
+    backdrop-blur-xl
+    border-b border-outline-variant
+    flex justify-between
+    items-center
+    px-4 md:px-8
+    py-3"
+>
+
+    <div>
+
+        <h2 class="text-xl md:text-2xl font-bold text-primary">
+            Profile
+        </h2>
+
+    </div>
+
+
+    <!-- Profile -->
+
+    <a
+        href="{% url 'profile' %}"
+        class="h-10 w-10
+        rounded-full
+        border-2 border-primary/20
+        overflow-hidden
+        bg-surface-container"
+    >
+
+        {% include 'includes/profilepic.html' %}
+
+    </a>
+
+</header>
+
+
+<!-- MAIN -->
+
+<main
+    class="pt-24 pb-24
+    md:pb-12
+    pl-0 md:pl-72
+    min-h-screen"
+>
+
+    {% include 'includes/messages.html' %}
+
+
+    <div
+        class="max-w-4xl
+        mx-auto
+        px-4 sm:px-6 lg:px-8
+        py-6 lg:py-10"
+    >
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="mb-8">
+
+            <h1
+                class="text-3xl md:text-4xl
+                font-bold
+                text-on-surface"
+            >
+                My Profile
+            </h1>
+
+            <p
+                class="text-on-surface-variant
+                mt-2"
+            >
+                View your account information.
+            </p>
+
+        </div>
+
+
+        <!-- PROFILE CARD -->
+
+        <section
+            class="bg-surface-container-lowest
+            border border-outline-variant
+            rounded-3xl
+            overflow-hidden"
+        >
+
+
+            <!-- PROFILE HEADER -->
+
+            <div
+                class="bg-secondary-container/30
+                px-6 md:px-10
+                py-8"
+            >
+
+                <div
+                    class="flex flex-col
+                    sm:flex-row
+                    items-center sm:items-start
+                    gap-5"
+                >
+
+                    <!-- Profile Image -->
+
+                    <div
+                        class="w-24 h-24
+                        rounded-full
+                        overflow-hidden
+                        border-4 border-white
+                        shadow-sm
+                        bg-surface-container
+                        flex-shrink-0"
+                    >
+
+                        {% include 'includes/profilepic.html' %}
+
+                    </div>
+
+
+                    <!-- Name -->
+
+                    <div
+                        class="text-center sm:text-left"
+                    >
+
+                        <h2
+                            class="text-2xl
+                            font-bold
+                            text-on-surface"
+                        >
+
+                            {{ user.get_full_name|default:user.username }}
+
+                        </h2>
+
+
+                        <p
+                            class="text-on-surface-variant
+                            mt-1"
+                        >
+
+                            @{{ user.username }}
+
+                        </p>
+
+
+                        <div
+                            class="inline-flex
+                            items-center
+                            gap-2
+                            mt-3
+                            px-3 py-1
+                            bg-secondary-container
+                            text-on-secondary-container
+                            rounded-full
+                            text-sm
+                            font-semibold"
+                        >
+
+                            <span
+                                class="material-symbols-outlined text-[17px]"
+                            >
+                                verified_user
+                            </span>
+
+                            Active Account
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- INFORMATION -->
+
+            <div class="p-6 md:p-10">
+
+
+                <h3
+                    class="text-lg
+                    font-bold
+                    text-on-surface
+                    mb-5"
+                >
+                    Personal Information
+                </h3>
+
+
+                <div
+                    class="grid
+                    grid-cols-1
+                    md:grid-cols-2
+                    gap-4"
+                >
+
+
+                    <!-- First Name -->
+
+                    <div
+                        class="p-4
+                        rounded-2xl
+                        bg-surface-container-low
+                        border border-outline-variant"
+                    >
+
+                        <p
+                            class="text-xs
+                            font-semibold
+                            text-on-surface-variant
+                            uppercase
+                            tracking-wide"
+                        >
+                            First Name
+                        </p>
+
+                        <p
+                            class="mt-1
+                            font-semibold
+                            text-on-surface"
+                        >
+
+                            {{ user.first_name|default:"Not provided" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- Last Name -->
+
+                    <div
+                        class="p-4
+                        rounded-2xl
+                        bg-surface-container-low
+                        border border-outline-variant"
+                    >
+
+                        <p
+                            class="text-xs
+                            font-semibold
+                            text-on-surface-variant
+                            uppercase
+                            tracking-wide"
+                        >
+                            Last Name
+                        </p>
+
+                        <p
+                            class="mt-1
+                            font-semibold
+                            text-on-surface"
+                        >
+
+                            {{ user.last_name|default:"Not provided" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- Email -->
+
+                    <div
+                        class="p-4
+                        rounded-2xl
+                        bg-surface-container-low
+                        border border-outline-variant"
+                    >
+
+                        <p
+                            class="text-xs
+                            font-semibold
+                            text-on-surface-variant
+                            uppercase
+                            tracking-wide"
+                        >
+                            Email Address
+                        </p>
+
+                        <p
+                            class="mt-1
+                            font-semibold
+                            text-on-surface
+                            break-all"
+                        >
+
+                            {{ user.email }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- Phone -->
+
+                    <div
+                        class="p-4
+                        rounded-2xl
+                        bg-surface-container-low
+                        border border-outline-variant"
+                    >
+
+                        <p
+                            class="text-xs
+                            font-semibold
+                            text-on-surface-variant
+                            uppercase
+                            tracking-wide"
+                        >
+                            Phone Number
+                        </p>
+
+                        <p
+                            class="mt-1
+                            font-semibold
+                            text-on-surface"
+                        >
+
+                            {{ user.phone|default:"Not provided" }}
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- Username -->
+
+                    <div
+                        class="p-4
+                        rounded-2xl
+                        bg-surface-container-low
+                        border border-outline-variant
+                    md:col-span-2"
+                    >
+
+                        <p
+                            class="text-xs
+                            font-semibold
+                            text-on-surface-variant
+                            uppercase
+                            tracking-wide"
+                        >
+                            Username
+                        </p>
+
+                        <p
+                            class="mt-1
+                            font-semibold
+                            text-on-surface"
+                        >
+
+                            @{{ user.username }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACCOUNT INFORMATION -->
+
+                <div
+                    class="mt-8
+                    pt-8
+                    border-t
+                    border-outline-variant"
+                >
+
+                    <h3
+                        class="text-lg
+                        font-bold
+                        text-on-surface
+                        mb-5"
+                    >
+                        Account Information
+                    </h3>
+
+
+                    <div
+                        class="flex items-center
+                        justify-between
+                        p-4
+                        rounded-2xl
+                        bg-surface-container-low"
+                    >
+
+                        <div
+                            class="flex items-center
+                            gap-3"
+                        >
+
+                            <div
+                                class="w-10 h-10
+                                rounded-xl
+                                bg-primary/10
+                                text-primary
+                                flex items-center
+                                justify-center"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    calendar_month
+                                </span>
+
+                            </div>
+
+
+                            <div>
+
+                                <p
+                                    class="text-xs
+                                    text-on-surface-variant"
+                                >
+                                    Member since
+                                </p>
+
+                                <p
+                                    class="font-semibold
+                                    text-on-surface"
+                                >
+
+                                    {{ user.date_joined|date:"F j, Y" }}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+
+<nav
+    class="fixed bottom-0
+    left-0 w-full
+    z-50
+    flex justify-around
+    items-center
+    px-4 pb-4 pt-2
+    md:hidden
+    bg-surface-bright/90
+    backdrop-blur-xl
+    border-t border-outline-variant"
+>
+
+
+    <a
+        href="{% url 'dashboard' %}"
+        class="flex flex-col
+        items-center
+        text-on-surface-variant
+        p-2"
+    >
+
+        <span class="material-symbols-outlined">
+            home
+        </span>
+
+        <span class="text-xs mt-1">
+            Home
+        </span>
+
+    </a>
+
+
+    <a
+        href="{% url 'groups' %}"
+        class="flex flex-col
+        items-center
+        text-on-surface-variant
+        p-2"
+    >
+
+        <span class="material-symbols-outlined">
+            group
+        </span>
+
+        <span class="text-xs mt-1">
+            Groups
+        </span>
+
+    </a>
+
+
+    <a
+        href="{% url 'wallet' %}"
+        class="flex flex-col
+        items-center
+        text-on-surface-variant
+        p-2"
+    >
+
+        <span class="material-symbols-outlined">
+            wallet
+        </span>
+
+        <span class="text-xs mt-1">
+            Wallet
+        </span>
+
+    </a>
+
+
+    <a
+        href="{% url 'profile' %}"
+        class="flex flex-col
+        items-center
+        text-primary
+        p-2"
+    >
+
+        <span
+            class="material-symbols-outlined"
+            style="font-variation-settings:'FILL' 1;"
+        >
+            person
+        </span>
+
+        <span class="text-xs mt-1 font-semibold">
+            Profile
+        </span>
+
+    </a>
+
+</nav>
+
+</body>
+</html>

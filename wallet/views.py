@@ -10,18 +10,23 @@ from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from groups.models import Group
 from .models import Wallet, WalletTransaction, GroupSavings
+from notifications.models import Notification
 
 # Create your views here.
-
+@login_required
 def wallet(request):
     
     wallet = request.user.wallet
     bankinfo=BankInfo.objects.filter(user=request.user).first()
     transactions = wallet.transactions.all()
+    notifications=Notification.objects.filter(user=request.user)
+    # Count unread notifications BEFORE marking them as read
+    unread_count = notifications.filter(is_read=False).count()
     context = {
         'bankinfo':bankinfo,
         "wallet": wallet,
-        'transactions':transactions
+        'transactions':transactions,
+        'unread_count':unread_count
         
     }
     return render(request,'group/wallet.html',context)

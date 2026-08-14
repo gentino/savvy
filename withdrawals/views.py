@@ -4,26 +4,92 @@ from .forms import BankForm, WithdrawalForm
 from .models import BankInfo
 from django.contrib.auth.decorators import login_required
 from notifications.models import Notification
-from wallet.models import Wallet, WalletTransaction
 from django.db import transaction
-from .models import Withdrawal
+from decimal import Decimal
+
+
+from wallet.models import Wallet
 # Create your views here.
 
 @login_required
 def withdrawals(request):
-
-    bankinfo = get_object_or_404(
-        BankInfo,
-        user=request.user
-    )
-
+    
+    #check if user has bankifo
+    bankinfo = BankInfo.objects.filter(user=request.user)
+    if not bankinfo.exists():
+        messages.info(request,'Set up  bank details before you proceed to withdraw')
+        return redirect('add_bank')
+            
+    # Get user's wallet
+    wallet = Wallet.objects.get(user=request.user)
     if request.method == "POST":
-
         form = WithdrawalForm(request.POST)
+        
+        
 
         if form.is_valid():
-
+            #check  wallet banlance
             withdrawal_request = form.save(commit=False)
+            
+            # Amount requested
+            amount = withdrawal_request.amount
+                # Validate amount
+            if amount <= Decimal("0.00"):
+                messages.error(
+                    request,
+                    "Withdrawal amount must be greater than zero."
+                )
+                return render(
+                    request,
+                    "group/withdraw.html",
+                    {
+                        "bankinfo": bankinfo,
+                        "form": form,
+                    }
+                )
+
+            # Check wallet balance
+            if amount > wallet.balance:
+                messages.error(
+                    request,
+                    f"Insufficient wallet balance. "
+                    f"Your available balance is ₦{wallet.balance:,.2f}."
+                )
+                return render(
+                    request,
+                    "group/withdraw.html",
+                    {
+                        "bankinfo": bankinfo,
+                        "form": form,
+                    }
+                )
+
+            with transaction.atomic():
+
+                # Lock wallet while creating withdrawal
+                wallet = Wallet.objects.select_for_update().get(
+                    user=request.user
+                )
+
+                # Check balance again after locking
+                if amount > wallet.balance:
+                    messages.error(
+                        request,
+                        f"Insufficient wallet balance. "
+                        f"Your available balance is ₦{wallet.balance:,.2f}."
+                    )
+
+                    return render(
+                        request,
+                        "group/withdraw.html",
+                        {
+                            "bankinfo": bankinfo,
+                            "form": form,
+                        }
+                    )
+
+
+            
 
             withdrawal_request.user = request.user
             withdrawal_request.status = withdrawal_request.PENDING
@@ -58,111 +124,112 @@ def withdrawals(request):
         context
     )
 
+# @login_required
+# def confirm(request, id):
+
+#     withdrawal = get_object_or_404(
+#         Withdrawal,
+#         id=id
+#     )
+
+#     if request.method == "POST":
+
+#         with transaction.atomic():
+
+#             # Prevent approving the same withdrawal twice
+#             if withdrawal.status != Withdrawal.Status.PENDING:
+#                 messages.error(
+#                     request,
+#                     "This withdrawal has already been processed."
+#                 )
+#                 return redirect("withdrawal_notification")
+
+#             wallet = Wallet.objects.select_for_update().get(
+#                 user=withdrawal.user
+#             )
+
+#             # Make sure the user has enough money
+#             if wallet.balance < withdrawal.amount:
+#                 messages.error(
+#                     request,
+#                     "Insufficient wallet balance."
+#                 )
+#                 return redirect("withdrawal_notification")
+
+#             # Deduct money from personal wallet
+#             wallet.balance -= withdrawal.amount
+#             wallet.save(update_fields=["balance"])
+
+#             # Create wallet transaction
+#             WalletTransaction.objects.create(
+#                 wallet=wallet,
+#                 amount=withdrawal.amount,
+#                 transaction_type=WalletTransaction.WITHDRAWAL,
+#                 status=WalletTransaction.COMPLETED,
+#                 description="Withdrawal approved"
+#             )
+
+#             # Approve withdrawal
+#             withdrawal.status = Withdrawal.Status.APPROVED
+#             withdrawal.save(
+#                 update_fields=["status", "updated_at"]
+#             )
+
+#             # Notify user
+#             Notification.objects.create(
+#                 user=withdrawal.user,
+#                 type=Notification.WITHDRAWAL_APPROVED
+#             )
+
+#         messages.success(
+#             request,
+#             "Withdrawal approved and wallet transaction completed."
+#         )
+
+#         return redirect("withdrawal_notification")
+
+#     return redirect("withdrawal_notification")
+
+# @login_required
+# def reject(request, id):
+
+#     withdrawal = get_object_or_404(
+#         Withdrawal,
+#         id=id
+#     )
+
+#     if request.method == "POST":
+
+#         with transaction.atomic():
+
+#             if withdrawal.status != Withdrawal.Status.PENDING:
+#                 messages.error(
+#                     request,
+#                     "This withdrawal has already been processed."
+#                 )
+#                 return redirect("withdrawal_notification")
+
+#             withdrawal.status = Withdrawal.Status.REJECTED
+
+#             withdrawal.save(
+#                 update_fields=["status", "updated_at"]
+#             )
+
+#             Notification.objects.create(
+#                 user=withdrawal.user,
+#                 type=Notification.WITHDRAWAL_REJECTED
+#             )
+
+#         messages.success(
+#             request,
+#             "Withdrawal rejected successfully."
+#         )
+
+#         return redirect("withdrawal_notification")
+
+#     return redirect("withdrawal_notification")
+
 @login_required
-def confirm(request, id):
-
-    withdrawal = get_object_or_404(
-        Withdrawal,
-        id=id
-    )
-
-    if request.method == "POST":
-
-        with transaction.atomic():
-
-            # Prevent approving the same withdrawal twice
-            if withdrawal.status != Withdrawal.Status.PENDING:
-                messages.error(
-                    request,
-                    "This withdrawal has already been processed."
-                )
-                return redirect("withdrawal_notification")
-
-            wallet = Wallet.objects.select_for_update().get(
-                user=withdrawal.user
-            )
-
-            # Make sure the user has enough money
-            if wallet.balance < withdrawal.amount:
-                messages.error(
-                    request,
-                    "Insufficient wallet balance."
-                )
-                return redirect("withdrawal_notification")
-
-            # Deduct money from personal wallet
-            wallet.balance -= withdrawal.amount
-            wallet.save(update_fields=["balance"])
-
-            # Create wallet transaction
-            WalletTransaction.objects.create(
-                wallet=wallet,
-                amount=withdrawal.amount,
-                transaction_type=WalletTransaction.WITHDRAWAL,
-                status=WalletTransaction.COMPLETED,
-                description="Withdrawal approved"
-            )
-
-            # Approve withdrawal
-            withdrawal.status = Withdrawal.Status.APPROVED
-            withdrawal.save(
-                update_fields=["status", "updated_at"]
-            )
-
-            # Notify user
-            Notification.objects.create(
-                user=withdrawal.user,
-                type=Notification.WITHDRAWAL_APPROVED
-            )
-
-        messages.success(
-            request,
-            "Withdrawal approved and wallet transaction completed."
-        )
-
-        return redirect("withdrawal_notification")
-
-    return redirect("withdrawal_notification")
-
-@login_required
-def reject(request, id):
-
-    withdrawal = get_object_or_404(
-        Withdrawal,
-        id=id
-    )
-
-    if request.method == "POST":
-
-        with transaction.atomic():
-
-            if withdrawal.status != Withdrawal.Status.PENDING:
-                messages.error(
-                    request,
-                    "This withdrawal has already been processed."
-                )
-                return redirect("withdrawal_notification")
-
-            withdrawal.status = Withdrawal.Status.REJECTED
-
-            withdrawal.save(
-                update_fields=["status", "updated_at"]
-            )
-
-            Notification.objects.create(
-                user=withdrawal.user,
-                type=Notification.WITHDRAWAL_REJECTED
-            )
-
-        messages.success(
-            request,
-            "Withdrawal rejected successfully."
-        )
-
-        return redirect("withdrawal_notification")
-
-    return redirect("withdrawal_notification")
-
 def add_bank(request):
     
     if request.method=='POST':

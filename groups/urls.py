@@ -15,4 +15,5 @@ urlpatterns = [
     path("group/join-request/<int:id>/reject/",views.reject_join_request,name="reject_join_request"),
     path("groups/<int:id>/leave/",views.leave_group,name="leave_group"),
     path("groups/<int:id>/remove-member/<int:user_id>/",views.remove_member,name="remove_member"),
+    path("group/<int:id>/settings/",views.group_settings,name="group_settings"),
 ]
