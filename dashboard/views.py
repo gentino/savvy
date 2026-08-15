@@ -1,7 +1,6 @@
 from django.shortcuts import render,get_object_or_404
 from groups.models import Group
 from withdrawals.models import BankInfo
-from wallet.models import Wallet
 from notifications.models import Notification
 
 

@@ -156,10 +156,10 @@ def group_details(request, id):
     if group.creator == request.user:
         target=group.contribution_amount * (Decimal(group.duration)/frequency_days) * member
         total_saved = GroupSavings.objects.filter(group=group).aggregate(
-        total=Sum("total_contributed"))["total"] or 0
+        total=Sum("balance"))["total"] or 0
     else:
         target=group.contribution_amount * (Decimal(group.duration)/frequency_days) 
-        total_saved = savings.total_contributed if savings else 0
+        total_saved = savings.balance if savings else 0
     
     
 
@@ -352,15 +352,24 @@ def group_invites(request,id):
 @login_required
 def group_members(request,id):
     group=get_object_or_404(Group,id=id)
-    savings = GroupSavings.objects.filter(group=group,user=OuterRef("user")).values("total_contributed")[:1]
+    current_savings = GroupSavings.objects.filter(group=group,user=OuterRef("user")).values("balance")[:1]
+    total_savings = GroupSavings.objects.filter(group=group,user=OuterRef("user")).values("total_contributed")[:1]
     members = GroupMember.objects.filter(group=group,role='member',status=GroupMember.ACTIVE).select_related('user').annotate(
-            total_saved=Subquery(
-                savings,
+            current_saved=Subquery(
+                current_savings,
                 output_field=DecimalField(
                     max_digits=14,
                     decimal_places=2
                 )
-            )
+            ),
+             total_saved=Subquery(
+                            total_savings,
+                            output_field=DecimalField(
+                                max_digits=14,
+                                decimal_places=2
+                        )
+                )
+            
     )
     notifications=Notification.objects.filter(user=request.user)
     # Count unread notifications BEFORE marking them as read    

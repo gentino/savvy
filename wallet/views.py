@@ -11,6 +11,7 @@ from django.utils import timezone
 from groups.models import Group
 from .models import Wallet, WalletTransaction, GroupSavings
 from notifications.models import Notification
+from wallet.services import group_payout
 
 # Create your views here.
 @login_required
@@ -42,28 +43,29 @@ def save(request, id):
         is_active=True
     )
 
-    # Get the user's personal wallet
+    # Get user's wallet
     wallet = get_object_or_404(
         Wallet,
         user=request.user
     )
 
-    # Get or create the user's savings for this group
+    # Get or create savings
     savings, created = GroupSavings.objects.get_or_create(
         group=group,
         user=request.user
     )
 
-    # The contribution amount comes directly from the group
+    # Contribution amount
     amount = group.contribution_amount
-
-
 
     # CHECK CONTRIBUTION FREQUENCY
 
     if savings.last_contributed_at:
+
         now = timezone.now()
+
         if group.contribution_frequency == Group.DAILY:
+
             next_contribution = (
                 savings.last_contributed_at
                 + timedelta(days=1)
@@ -99,65 +101,121 @@ def save(request, id):
                 "You have already contributed for this period. "
                 "Please wait until your next contribution period."
             )
+
             return redirect("group", id=group.id)
 
-
-    # MAKE SURE AMOUNT IS VALID
+    # VALIDATE CONTRIBUTION AMOUNT
+   
     if amount <= Decimal("0.00"):
+
         messages.error(
             request,
             "This group has an invalid contribution amount."
         )
+
         return redirect("group", id=group.id)
 
-    # Check wallet balance
+    
+    # CHECK WALLET BALANCE
     if wallet.balance < amount:
+
         messages.error(
             request,
             f"Insufficient wallet balance. "
             f"You need ₦{amount:,.2f} to make this contribution."
         )
+
         return redirect("group", id=group.id)
 
+    # MAKE CONTRIBUTION
+  
     with transaction.atomic():
 
         now = timezone.now()
 
-        # Deduct from personal wallet
-        wallet.balance -= amount
-        wallet.save(update_fields=["balance"])
+        # Wallet balance BEFORE deduction
+        balance_before = wallet.balance
 
-        # Add to group savings
+        # Deduct contribution ONCE
+        wallet.balance -= amount
+
+        # Wallet balance AFTER deduction
+        balance_after = wallet.balance
+
+        wallet.save(
+            update_fields=[
+                "balance",
+                "updated_at"
+            ]
+        )
+
+        # Add contribution to current savings cycle
         savings.balance += amount
+
+        # Lifetime contribution record
         savings.total_contributed += amount
 
-        # IMPORTANT: record this contribution time
+        # Record contribution time
         savings.last_contributed_at = now
 
         savings.save()
 
         # Record wallet transaction
-        balance_before = wallet.balance
-
-        # Deduct from wallet
-        wallet.balance -= amount
-
-        balance_after = wallet.balance
-
-        wallet.save(update_fields=["balance"])
-
         WalletTransaction.objects.create(
             wallet=wallet,
             amount=amount,
-            transaction_type="contribution",
-            status="completed",
+            transaction_type=WalletTransaction.CONTRIBUTION,
+            status=WalletTransaction.SUCCESSFUL,
             balance_before=balance_before,
             balance_after=balance_after,
             description=f"Contribution to {group.name}"
         )
 
-    messages.success(request,f"Your contribution of ₦{amount:,.2f} was successful.")
-    return redirect("group", id=group.id)
+    # CHECK IF TARGET HAS BEEN REACHED
+
+    frequency_days = 0
+    if group.contribution_frequency == Group.DAILY:
+        frequency_days = 1
+
+    elif group.contribution_frequency == Group.WEEKLY:
+        frequency_days = 7
+
+    elif group.contribution_frequency == Group.MONTHLY:
+        frequency_days = 30
+
+    if frequency_days > 0:
+
+        target = (
+            amount
+            * Decimal(group.duration)
+            / Decimal(frequency_days)
+        )
+
+        if savings.balance >= target:
+
+            success, payout_amount = group_payout(savings)
+
+            if success:
+                messages.success(
+                    request,
+                    f"Congratulations! You reached your savings target. "
+                    f"₦{payout_amount:,.2f} has been added to your wallet."
+                )
+
+                return redirect(
+                    "group",
+                    id=group.id
+                )
+
+    messages.success(
+        request,
+        f"Your contribution of ₦{amount:,.2f} was successful."
+    )
+
+    return redirect(
+        "group",
+        id=group.id
+    )
 
 @login_required
 def transactions(request):

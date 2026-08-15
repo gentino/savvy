@@ -5,6 +5,8 @@ from .models import WalletTransaction
 from deposits.models import Deposit
 from withdrawals.models import Withdrawal
 from notifications.models import Notification
+from wallet.models import Wallet
+from decimal import Decimal
 
 
 def approve_deposit(deposit):
@@ -153,3 +155,123 @@ def reject_withdrawal(withdrawal):
         amount=withdrawal.amount)
 
     return True, "Withdrawal rejected successfully."
+
+
+
+PLATFORM_FEE_PERCENT = Decimal("2.00")
+
+
+def group_payout(savings):
+
+    group = savings.group
+    member = savings.user
+
+    # Current savings cycle
+    total_fund = savings.balance
+
+    if total_fund <= Decimal("0.00"):
+        return False, "No funds available for payout."
+
+    # -----------------------------------------
+    # SAVVY PLATFORM FEE
+    # -----------------------------------------
+
+    platform_fee = (
+        total_fund
+        * PLATFORM_FEE_PERCENT
+        / Decimal("100")
+    )
+
+    # Amount remaining after Savvy's 2%
+    available_fund = total_fund - platform_fee
+
+    # -----------------------------------------
+    # GROUP CREATOR COMMISSION
+    # -----------------------------------------
+
+    commission = (
+        available_fund
+        * group.group_commission
+        / Decimal("100")
+    )
+
+    # -----------------------------------------
+    # MEMBER PAYOUT
+    # -----------------------------------------
+
+    member_payout = available_fund - commission
+
+    with transaction.atomic():
+
+        # Lock wallets so two payout processes
+        # cannot modify them at the same time.
+        member_wallet = Wallet.objects.select_for_update().get(
+            user=member
+        )
+
+        creator_wallet = Wallet.objects.select_for_update().get(
+            user=group.creator
+        )
+
+    
+        # MEMBER WALLET
+
+        member_before = member_wallet.balance
+        member_wallet.balance += member_payout
+        member_wallet.save(
+            update_fields=[
+                "balance",
+                "updated_at"
+            ]
+        )
+
+        WalletTransaction.objects.create(
+            wallet=member_wallet,
+            transaction_type=WalletTransaction.ADJUSTMENT,
+            amount=member_payout,
+            balance_before=member_before,
+            balance_after=member_wallet.balance,
+            status=WalletTransaction.SUCCESSFUL,
+            description=f"Group payout - {group.name}"
+        )
+
+        
+        # CREATOR WALLET
+
+        creator_before = creator_wallet.balance
+
+        creator_wallet.balance += commission
+
+        creator_wallet.save(
+            update_fields=[
+                "balance",
+                "updated_at"
+            ]
+        )
+
+        WalletTransaction.objects.create(
+            wallet=creator_wallet,
+            transaction_type=WalletTransaction.ADJUSTMENT,
+            amount=commission,
+            balance_before=creator_before,
+            balance_after=creator_wallet.balance,
+            status=WalletTransaction.SUCCESSFUL,
+            description=f"Group commission - {group.name}"
+        )
+
+           # COMPLETE CURRENT SAVINGS CYCLE
+    
+
+        savings.balance = Decimal("0.00")
+
+        savings.total_withdrawn += member_payout
+
+        savings.save(
+            update_fields=[
+                "balance",
+                "total_withdrawn",
+                "updated_at"
+            ]
+        )
+
+    return True, member_payout

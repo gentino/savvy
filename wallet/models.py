@@ -76,6 +76,8 @@ class GroupSavings(models.Model):
     balance = models.DecimalField(max_digits=14,decimal_places=2,default=0)
     total_contributed = models.DecimalField(max_digits=14,decimal_places=2,default=0)
     total_withdrawn = models.DecimalField(max_digits=14,decimal_places=2,default=0)
+    payout_completed = models.BooleanField(default=False)
+    payout_completed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     last_contributed_at = models.DateTimeField(null=True,blank=True)

@@ -36,6 +36,7 @@ class Group(models.Model):
     duration = models.PositiveIntegerField(default=20)
     max_members = models.PositiveIntegerField(default=20)
     penalty_rules = models.TextField(blank=True)
+    group_commission = models.DecimalField(max_digits=5,decimal_places=2,default=0)
     is_active = models.BooleanField(default=True)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL,through="GroupMember",related_name="joined_groups")
     created_at = models.DateTimeField(auto_now_add=True)

@@ -722,7 +722,15 @@
     <!-- Contribution -->
     <div class="text-right">
         <p class="font-label-sm text-label-sm font-bold text-primary">
-            ₦{{member.total_saved|default:0|floatformat:2}}
+          Current:  ₦{{member.current_saved|default:0|floatformat:2}}
+        </p>
+    </div>
+
+
+    <!-- Contribution -->
+    <div class="text-right">
+        <p class="font-label-sm text-label-sm font-bold text-primary">
+          | Total:  ₦{{member.total_saved|default:0|floatformat:2}}
         </p>
     </div>
 
