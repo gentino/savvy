@@ -1,18 +1,18 @@
 <!-- Bottom Navigation (Mobile Only) -->
 <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-lg pb-4 pt-2 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl border-t border-outline-variant shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] md:hidden">
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="{% url 'dashboard' %}">
 <span class="material-symbols-outlined">home</span>
 <span class="font-label-xs">Home</span>
 </a>
-<a class="flex flex-col items-center justify-center text-primary font-bold scale-90 transition-all duration-200" href="#">
+<a class="flex flex-col items-center justify-center text-primary font-bold scale-90 transition-all duration-200" href="{% url 'groups' %}">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
 <span class="font-label-xs">Groups</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="{% url 'wallet' %}">
 <span class="material-symbols-outlined">wallet</span>
 <span class="font-label-xs">Wallet</span>
 </a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container-high transition-all" href="{% url 'profile' %}">
 <span class="material-symbols-outlined">person</span>
 <span class="font-label-xs">Profile</span>
 </a>

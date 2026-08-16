@@ -30,7 +30,6 @@ def groups(request):
         active_member_count=Count(
         "group_members",
         filter=Q(
-            group_members__role=GroupMember.MEMBER,
             group_members__status=GroupMember.ACTIVE)),
         remaining_slots=ExpressionWrapper(
         F("max_members") - F("active_member_count"),
@@ -137,7 +136,7 @@ def group_details(request, id):
         reverse("group_invite", kwargs={ "token": invite_link.token})
     )
     # member = group.members.filter(is_active=True,role='member').count()
-    member = group.group_members.filter(status=GroupMember.ACTIVE,role=GroupMember.MEMBER).count()
+    member = group.group_members.filter(status=GroupMember.ACTIVE).count()
     savings = GroupSavings.objects.filter(group=group,user=request.user).first()
         
     match group.contribution_frequency:
@@ -153,23 +152,26 @@ def group_details(request, id):
         case _:
             frequency_days = 0
     
-    if group.creator == request.user:
-        target=group.contribution_amount * (Decimal(group.duration)/frequency_days) * member
-        total_saved = GroupSavings.objects.filter(group=group).aggregate(
-        total=Sum("balance"))["total"] or 0
-    else:
-        target=group.contribution_amount * (Decimal(group.duration)/frequency_days) 
-        total_saved = savings.balance if savings else 0
+    # if group.creator == request.user:
+    group_target=group.contribution_amount * (Decimal(group.duration)/frequency_days) * member
+    group_total_saved = GroupSavings.objects.filter(group=group).aggregate(
+    total=Sum("balance"))["total"] or 0
+    # else:
+    target=group.contribution_amount * (Decimal(group.duration)/frequency_days) 
+    total_saved = savings.balance if savings else 0
     
     
 
     if target > 0:
         progress = (total_saved / target) * Decimal("100")
+        group_progress = (group_total_saved / group_target) * Decimal("100")
     else:
         progress = Decimal("0")
+        group_progress =Decimal("0")
 
     # Don't allow the chart to go above 100%
     progress = min(progress, Decimal("100"))
+    group_progress = min(group_progress, Decimal("100"))
     savings = GroupSavings.objects.filter(
     group=group,
     user=request.user
@@ -210,8 +212,11 @@ def group_details(request, id):
         "invite_link": invite_link,
         "invite_url": invite_url,
         'target':target,
+        'group_target':group_target,
         'total_saved':total_saved,
+        'group_total_saved':group_total_saved,
         'progress':progress,
+        'group_progress':group_progress,
         'is_creator':is_creator,
         'member_count':member,
         'can_contribute':can_contribute,
@@ -354,7 +359,7 @@ def group_members(request,id):
     group=get_object_or_404(Group,id=id)
     current_savings = GroupSavings.objects.filter(group=group,user=OuterRef("user")).values("balance")[:1]
     total_savings = GroupSavings.objects.filter(group=group,user=OuterRef("user")).values("total_contributed")[:1]
-    members = GroupMember.objects.filter(group=group,role='member',status=GroupMember.ACTIVE).select_related('user').annotate(
+    members = GroupMember.objects.filter(group=group,status=GroupMember.ACTIVE).select_related('user').annotate(
             current_saved=Subquery(
                 current_savings,
                 output_field=DecimalField(

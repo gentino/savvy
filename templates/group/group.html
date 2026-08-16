@@ -592,9 +592,8 @@
     </section>
 
 
-    <!-- ================================================= -->
     <!-- DESKTOP DASHBOARD GRID -->
-    <!-- ================================================= -->
+   
 
     <div
         class="grid grid-cols-1
@@ -604,9 +603,9 @@
     >
 
 
-        <!-- ============================================= -->
+   
         <!-- LEFT / MAIN COLUMN -->
-        <!-- ============================================= -->
+        
 
         <div
             class="lg:col-span-2
@@ -617,7 +616,7 @@
 
             <!-- Savings Progress -->
 
-            <section
+            {% comment %} <section
                 class="dashboard-card
                 bg-surface
                 rounded-3xl
@@ -753,7 +752,361 @@
 
                             </div>
 
-                        </div>
+                        </div> {% endcomment %}
+
+
+
+                        {% if group.creator == request.user %}
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-lg">
+
+    <!-- ENTIRE GROUP PROGRESS -->
+    <section
+        class="dashboard-card
+        bg-surface
+        rounded-3xl
+        border border-outline-variant
+        shadow-sm overflow-hidden"
+    >
+
+        <div class="p-6 lg:p-8">
+
+            <!-- Header -->
+            <div
+                class="flex flex-col
+                sm:flex-row
+                sm:items-center
+                sm:justify-between
+                gap-3 mb-8"
+            >
+
+                <div>
+
+                    <p
+                        class="text-xs font-semibold
+                        uppercase tracking-wide
+                        text-primary mb-1"
+                    >
+                        Group Progress
+                    </p>
+
+                    <h2
+                        class="text-xl lg:text-2xl
+                        font-bold text-on-surface"
+                    >
+                        Entire Group
+                    </h2>
+
+                </div>
+
+
+                <span
+                    class="inline-flex items-center
+                    gap-1.5 px-3 py-1.5
+                    rounded-full
+                    bg-primary/10
+                    text-primary
+                    text-sm font-semibold
+                    w-fit"
+                >
+
+                    <span
+                        class="material-symbols-outlined
+                        text-[17px]"
+                    >
+                        groups
+                    </span>
+
+                    {{ group_progress|floatformat:0 }}%
+
+                </span>
+
+            </div>
+
+
+            <!-- Progress Circle -->
+            <div class="flex justify-center">
+
+                <div
+                    class="relative
+                    w-40 h-40
+                    lg:w-44 lg:h-44"
+                >
+
+                    <svg
+                        class="w-full h-full progress-ring"
+                        viewBox="0 0 36 36"
+                    >
+
+                        <!-- Background -->
+                        <path
+                            class="text-surface-variant"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                        ></path>
+
+
+                        <!-- Progress -->
+                        <path
+                            class="text-primary"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-dasharray="{{ group_progress }}, 100"
+                            stroke-linecap="round"
+                            stroke-width="3"
+                        ></path>
+
+                    </svg>
+
+
+                    <!-- Center -->
+                    <div
+                        class="absolute inset-0
+                        flex flex-col
+                        items-center
+                        justify-center"
+                    >
+
+                        <span
+                            class="text-3xl
+                            font-bold
+                            text-on-surface"
+                        >
+                            {{ group_progress|floatformat:0 }}%
+                        </span>
+
+                        <span
+                            class="text-xs
+                            text-on-surface-variant
+                            mt-1"
+                        >
+                            completed
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Amount -->
+            <div class="text-center mt-6">
+
+                <p
+                    class="text-sm
+                    text-on-surface-variant"
+                >
+                    Entire Group Savings
+                </p>
+
+                <p
+                    class="text-lg
+                    font-bold
+                    text-on-surface
+                    mt-1"
+                >
+                    ₦{{ group_total_saved|floatformat:2 }}
+
+                    <span
+                        class="text-sm
+                        font-normal
+                        text-on-surface-variant"
+                    >
+                        / ₦{{ group_target|floatformat:2 }}
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CREATOR PERSONAL PROGRESS -->
+   
+
+    <section
+        class="dashboard-card
+        bg-surface
+        rounded-3xl
+        border border-outline-variant
+        shadow-sm overflow-hidden"
+    >
+
+        <div class="p-6 lg:p-8">
+
+            <!-- Header -->
+            <div
+                class="flex flex-col
+                sm:flex-row
+                sm:items-center
+                sm:justify-between
+                gap-3 mb-8"
+            >
+
+                <div>
+
+                    <p
+                        class="text-xs font-semibold
+                        uppercase tracking-wide
+                        text-primary mb-1"
+                    >
+                        My Progress
+                    </p>
+
+                    <h2
+                        class="text-xl lg:text-2xl
+                        font-bold text-on-surface"
+                    >
+                        Personal Savings
+                    </h2>
+
+                </div>
+
+
+                <span
+                    class="inline-flex items-center
+                    gap-1.5 px-3 py-1.5
+                    rounded-full
+                    bg-primary/10
+                    text-primary
+                    text-sm font-semibold
+                    w-fit"
+                >
+
+                    <span
+                        class="material-symbols-outlined
+                        text-[17px]"
+                    >
+                        person
+                    </span>
+
+                    {{ progress|floatformat:0 }}%
+
+                </span>
+
+            </div>
+
+
+            <!-- Progress Circle -->
+            <div class="flex justify-center">
+
+                <div
+                    class="relative
+                    w-40 h-40
+                    lg:w-44 lg:h-44"
+                >
+
+                    <svg
+                        class="w-full h-full progress-ring"
+                        viewBox="0 0 36 36"
+                    >
+
+                        <!-- Background -->
+                        <path
+                            class="text-surface-variant"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                        ></path>
+
+
+                        <!-- Progress -->
+                        <path
+                            class="text-primary"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-dasharray="{{ progress }}, 100"
+                            stroke-linecap="round"
+                            stroke-width="3"
+                        ></path>
+
+                    </svg>
+
+
+                    <!-- Center -->
+                    <div
+                        class="absolute inset-0
+                        flex flex-col
+                        items-center
+                        justify-center"
+                    >
+
+                        <span
+                            class="text-3xl
+                            font-bold
+                            text-on-surface"
+                        >
+                            {{ progress|floatformat:0 }}%
+                        </span>
+
+                        <span
+                            class="text-xs
+                            text-on-surface-variant
+                            mt-1"
+                        >
+                            completed
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Amount -->
+            <div class="text-center mt-6">
+
+                <p
+                    class="text-sm
+                    text-on-surface-variant"
+                >
+                    My Savings
+                </p>
+
+                <p
+                    class="text-lg
+                    font-bold
+                    text-on-surface
+                    mt-1"
+                >
+                    ₦{{ total_saved|floatformat:2 }}
+
+                    <span
+                        class="text-sm
+                        font-normal
+                        text-on-surface-variant"
+                    >
+                        / ₦{{ target|floatformat:2 }}
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endif %}
+
 
 
                         <!-- Financial Details -->
@@ -853,7 +1206,7 @@
 
                             <!-- Contribution Action -->
 
-                            {% if not is_creator %}
+                            {% comment %} {% if not is_creator %} {% endcomment %}
 
                                 {% if can_contribute %}
 
@@ -926,7 +1279,7 @@
 
                                 {% endif %}
 
-                            {% endif %}
+                            {% comment %} {% endif %} {% endcomment %}
 
                         </div>
 
