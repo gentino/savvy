@@ -620,7 +620,7 @@
           <!-- Progress Section -->
 <section class="dashboard-card bg-surface rounded-3xl border border-outline-variant shadow-sm overflow-hidden">
 
-    <div class="p-6 lg:p-8">
+    <div class="p-6 lg:p-12">
 
         <!-- Progress Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-8">
@@ -640,16 +640,14 @@
 
         {% if group.creator == request.user %}
 
-        <!-- ========================================= -->
+
         <!-- CREATOR: GROUP + PERSONAL PROGRESS        -->
-        <!-- ========================================= -->
+       
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-
-            <!-- ========================================= -->
             <!-- ENTIRE GROUP PROGRESS                     -->
-            <!-- ========================================= -->
+
 
             <div class="rounded-2xl border border-outline-variant bg-surface-container-low p-6">
 
@@ -753,9 +751,8 @@
 
 
 
-            <!-- ========================================= -->
             <!-- CREATOR PERSONAL PROGRESS                 -->
-            <!-- ========================================= -->
+           
 
             <div class="rounded-2xl border border-outline-variant bg-surface-container-low p-6">
 
@@ -862,9 +859,8 @@
 
         {% else %}
 
-        <!-- ========================================= -->
         <!-- NORMAL MEMBER: PERSONAL PROGRESS ONLY     -->
-        <!-- ========================================= -->
+      
 
         <div class="rounded-2xl border border-outline-variant bg-surface-container-low p-6">
 
@@ -1143,6 +1139,8 @@
                     </a>
 
                 </nav>
+                <br>
+                <br>
 
             </section>
 {% endif %}
