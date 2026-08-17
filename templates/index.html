@@ -209,10 +209,10 @@
 </li>
 </ul>
 {% if user.is_authenticated %}
-<a href="{% url 'create_group' %}" class="block w-full bg-primary text-on-primary font-label-md text-label-md py-4 rounded-xl font-semibold hover:bg-surface-tint active:scale-95 transition-all">Start Saving Today</button>
+<a href="{% url 'create_group' %}" class="block w-full bg-primary text-on-primary font-label-md text-label-md py-4 rounded-xl font-semibold hover:bg-surface-tint active:scale-95 transition-all">Start Saving Today</a>
 
         {% else %}
-<a href="{% url 'login' %}" class="block w-full bg-primary text-on-primary font-label-md text-label-md py-4 rounded-xl font-semibold hover:bg-surface-tint active:scale-95 transition-all">Start Saving Today</button>
+<a href="{% url 'login' %}" class="block w-full bg-primary text-on-primary font-label-md text-label-md py-4 rounded-xl font-semibold hover:bg-surface-tint active:scale-95 transition-all">Start Saving Today</a>
 {% endif %}
 
 </div>
