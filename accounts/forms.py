@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
-
+from phonenumber_field.formfields import PhoneNumberField
 
 def styles():
     return '''w-full pl-12 pr-4 py-3
@@ -16,6 +16,13 @@ def styles():
     '''
 
 class RegisterForm(UserCreationForm):
+    phone = PhoneNumberField(
+        region="NG",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Phone Number",
+            "type": "tel",
+        })
+    )
     class Meta:
         model = User
         fields = (
@@ -42,9 +49,12 @@ class RegisterForm(UserCreationForm):
             "email": forms.EmailInput(attrs={
                 "placeholder": "Email Address"
             }),
-            "phone": forms.TextInput(attrs={
-                "placeholder": "Phone Number"
-            }),
+            # "phone": forms.TextInput(attrs={
+            #     "placeholder": "Phone Number"
+            # }),
+            
+            
+            
             'profile_photo': forms.ClearableFileInput(
                 attrs={
             "class": "hidden",
